@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: false,
-	pageExtensions: ['page.tsx', 'page.ts'],
 	redirects: async () => {
 		return [
 			{
