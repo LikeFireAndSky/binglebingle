@@ -37,14 +37,6 @@ export const authOption: AuthOptions = {
 			session.user.accessToken = token.accessToken;
 			return session;
 		},
-
-		async redirect({ url, baseUrl }) {
-			// Allows relative callback URLs
-			if (url.startsWith('/')) return `${baseUrl}${url}`;
-			// Allows callback URLs on the same origin
-			if (new URL(url).origin === baseUrl) return '/page';
-			return baseUrl;
-		},
 	},
 
 	secret: process.env.NEXTAUTH_SECRET!,
