@@ -1,6 +1,6 @@
 import React from 'react';
 import getCurrentUrl from '@/utils/getCurrentUrl';
-import Lottie from '@/components/Lottie/Lottie';
+import HomeAnimation from '@/components/Lottie/Lottie';
 import EnterButton from '@/components/Home/EnterButton/EnterButton';
 
 // const fetchHello = async (data: object) => {
@@ -62,7 +62,7 @@ const Home = async () => {
 				<h1 className="text-3xl font-['Taebaek'] text-center flex flex-col sm:flex-row sm:gap-2">
 					빙글빙글<p>돌림판</p>
 				</h1>
-				<Lottie />
+				<HomeAnimation />
 				<div className="flex flex-col items-center mb-3">
 					<p className="text-sm">
 						MADE BY <strong>`HANAPO`</strong>
