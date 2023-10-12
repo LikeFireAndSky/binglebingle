@@ -72,7 +72,7 @@ const Home = async () => {
 						<li>당신을 위한 빙돌이</li>
 					</ul>
 				</div>
-				<EnterButton />
+				{/* <EnterButton /> */}
 			</div>
 		</section>
 	);
