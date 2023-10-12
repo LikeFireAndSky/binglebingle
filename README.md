@@ -85,3 +85,10 @@ Start the server
 ## Demo
 
 Insert gif or link to demo
+
+## Vercel
+
+hobby - 무료
+대역폭 (Bandwidth) 100GB
+프로젝트 당 도매인 50개 제한
+일일 배포 100
