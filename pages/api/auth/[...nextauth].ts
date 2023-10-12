@@ -19,14 +19,6 @@ export const authOption: AuthOptions = {
 	],
 
 	callbacks: {
-		async jwt({ token, account }) {
-			if (account?.accessToken) {
-				token.accessToken = account.accessToken;
-			}
-
-			return token;
-		},
-
 		async session({ session, token, user }: any) {
 			session.user.username = session?.user?.name
 				.split(' ')
