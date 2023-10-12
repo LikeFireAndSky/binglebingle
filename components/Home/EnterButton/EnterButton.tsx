@@ -5,10 +5,7 @@ import { signIn } from 'next-auth/react';
 import { Button } from '@material-tailwind/react';
 
 const EnterButton = () => {
-	const handleClick: MouseEventHandler<HTMLButtonElement> = (e): void => {
-		e.preventDefault();
-		signIn();
-	};
+	const handleClick: MouseEventHandler<HTMLButtonElement> = (e): void => {};
 	return (
 		<Button type="button" onClick={handleClick}>
 			GET START
