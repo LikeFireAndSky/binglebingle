@@ -19,7 +19,6 @@ const Page = () => {
 		signOut();
 	};
 
-	console.log(session);
 	return (
 		<div className="w-4/5 h-screen flex flex-col mx-auto my-auto items-center justify-center">
 			<Card className="text-5xl flex flex-col justify-center items-center">
