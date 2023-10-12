@@ -5,6 +5,7 @@ import lottie from 'lottie-web';
 import animaionData from '../../public/Polite Chicky.json';
 
 const Lottie = () => {
+	console.log('Lottie ON');
 	const ref = React.useRef(null);
 	React.useEffect(() => {
 		if (!ref.current) {

@@ -42,7 +42,7 @@ export const authOption: AuthOptions = {
 			// Allows relative callback URLs
 			if (url.startsWith('/')) return `${baseUrl}${url}`;
 			// Allows callback URLs on the same origin
-			if (new URL(url).origin === baseUrl) return '/page';
+			if (new URL(url).origin === baseUrl) return url;
 			return baseUrl;
 		},
 	},
