@@ -7,16 +7,10 @@ import { Card, Button } from '@material-tailwind/react';
 
 const Page = () => {
 	const router = useRouter();
-	const { data: session } = useSession({
-		required: true,
-		onUnauthenticated() {
-			router.push('/notlogin');
-		},
-	});
+	const { data: session } = useSession();
 
 	const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
 		e.preventDefault();
-		signOut();
 	};
 
 	return (

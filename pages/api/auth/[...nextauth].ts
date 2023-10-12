@@ -26,7 +26,6 @@ export const authOption: AuthOptions = {
 				.toLocaleLowerCase();
 
 			session.user.uid = token.sub;
-			session.user.accessToken = token.accessToken;
 			return session;
 		},
 	},
