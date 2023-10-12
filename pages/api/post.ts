@@ -9,7 +9,6 @@ export default async function addPost(
 	await dbConnect();
 	const { method } = req;
 	const { title, content } = req.body;
-	console.log(req.body);
 
 	if (method === 'POST') {
 		model.create({ title, content });
