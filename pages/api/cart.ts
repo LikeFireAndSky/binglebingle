@@ -10,7 +10,6 @@ export default async function handler(
 		case 'GET':
 			try {
 				const param = req.query.param1;
-				console.log(param);
 				const data = await kv.get(param as string);
 				res.status(200).json({ success: true, data });
 			} catch (error) {
@@ -20,7 +19,6 @@ export default async function handler(
 		case 'POST':
 			try {
 				const keyName = req.body.name;
-				console.log(keyName);
 				await kv.set(keyName, req.body);
 				res.status(201).json({ success: true });
 			} catch (error) {
