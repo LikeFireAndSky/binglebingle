@@ -3,58 +3,58 @@ import getCurrentUrl from '@/utils/getCurrentUrl';
 import Lottie from '@/components/Lottie/Lottie';
 import EnterButton from '@/components/Home/EnterButton/EnterButton';
 
-const fetchHello = async (data: object) => {
-	const currentUrl = getCurrentUrl();
-	const res = await fetch(`${currentUrl}/api/cart`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(data),
-	});
+// const fetchHello = async (data: object) => {
+// 	const currentUrl = getCurrentUrl();
+// 	const res = await fetch(`${currentUrl}/api/cart`, {
+// 		method: 'POST',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 		body: JSON.stringify(data),
+// 	});
 
-	if (!res.ok) {
-		throw new Error(res.statusText);
-	}
+// 	if (!res.ok) {
+// 		throw new Error(res.statusText);
+// 	}
 
-	return res.json();
-};
+// 	return res.json();
+// };
 
-const fetchKV = async (name: string) => {
-	const currentUrl = getCurrentUrl();
-	const res = await fetch(`${currentUrl}/api/cart?param1=${name}`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
+// const fetchKV = async (name: string) => {
+// 	const currentUrl = getCurrentUrl();
+// 	const res = await fetch(`${currentUrl}/api/cart?param1=${name}`, {
+// 		method: 'GET',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 	});
 
-	if (!res.ok) {
-		throw new Error(res.statusText);
-	}
+// 	if (!res.ok) {
+// 		throw new Error(res.statusText);
+// 	}
 
-	return res.json();
-};
+// 	return res.json();
+// };
 
-const fetchPost = async () => {
-	const currentUrl = getCurrentUrl();
-	const res = await fetch(`${currentUrl}/api/get`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
+// const fetchPost = async () => {
+// 	const currentUrl = getCurrentUrl();
+// 	const res = await fetch(`${currentUrl}/api/get`, {
+// 		method: 'GET',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 	});
 
-	if (!res.ok) {
-		throw new Error(res.statusText);
-	}
+// 	if (!res.ok) {
+// 		throw new Error(res.statusText);
+// 	}
 
-	return res.json();
-};
+// 	return res.json();
+// };
 
 const Home = async () => {
-	const data = await fetchKV('John Doe');
-	const data2 = await fetchPost();
+	// const data = await fetchKV('John Doe');
+	// const data2 = await fetchPost();
 
 	return (
 		<section className="w-screen h-screen bg-yellow-900 flex flex-col justify-center items-center">
