@@ -18,8 +18,17 @@ const config: Config = withMT({
 			xl: '1280px',
 			'2xl': '1536px',
 		},
-
+		colors: {
+			'primary-color': '#F28705',
+			'second-color': '#F2CB05',
+			'third-color': '#263973',
+			'fourth-color': '#F24405',
+		},
 		extend: {
+			fontFamily: {
+				'primary-font': ['Taebaek', 'sans-serif'],
+				'secondary-font': ['Poppins', 'sans-serif'],
+			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic':

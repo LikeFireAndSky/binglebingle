@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
 
-## Getting Started
+# 빙글빙글 돌림판판
 
-First, run the development server:
+매번 돌림판 정보 넣느라 귀찮아 죽겠어서 만들어봅니다... 😎
+
+## Roadmap
+
+- Oauth 추가하기
+
+- MyTeam 만들기
+
+- MyTeam에 있는 저장 데이터 활용해서 바로 입력 가능하게 만들기
+
+- UserData를 분석해서 누가 어떤 질문에 가장 많이 답했는 지 만들기
+
+- 중복으로 배정되는 것 방지하기
+
+- 배정되는 이펙트 정리하기
+
+## Running Tests
+
+To run tests, run the following command
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  npm run test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## FAQ
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### Question 1
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Answer 1
 
-## Learn More
+#### Question 2
 
-To learn more about Next.js, take a look at the following resources:
+Answer 2
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Feedback
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+If you have any feedback, please reach out to us at fake@fake.com
 
-## Deploy on Vercel
+## 🚀 About Me
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+I'm a full stack developer...
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Hi, I'm Katherine! 👋
+
+## 🛠 Skills
+
+NEXT js 13 app-router, react-query, recoil, tailwindcss, material-tailwindcss/react, fireabse, mongodb, react-hook-form
+
+## Related
+
+Here are some related projects
+
+[Awesome README](https://github.com/matiassingers/awesome-readme)
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://link-to-project
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run dev
+```
+
+## Demo
+
+Insert gif or link to demo
