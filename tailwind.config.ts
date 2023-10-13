@@ -5,7 +5,6 @@ const scrollBarHide = require('tailwind-scrollbar-hide');
 const withMT = require('@material-tailwind/react/utils/withMT');
 
 const config: Config = withMT({
-	important: true,
 	content: [
 		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
 		'./components/**/*.{js,ts,jsx,tsx,mdx}',
