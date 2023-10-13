@@ -7,9 +7,6 @@ export default function Navbar() {
 	const [navbarOpen, setNavbarOpen] = React.useState(false);
 
 	// URL명이 /home이면, navbar를 숨김
-	if (window.location.pathname === '/home') {
-		return <></>;
-	}
 
 	return (
 		<>
