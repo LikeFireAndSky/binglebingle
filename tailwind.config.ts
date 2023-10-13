@@ -1,8 +1,10 @@
+import type { Config } from 'tailwindcss';
+
 const plugin = require('tailwindcss-animate');
 const scrollBarHide = require('tailwind-scrollbar-hide');
 const withMT = require('@material-tailwind/react/utils/withMT');
 
-module.exports = withMT({
+const config: Config = withMT({
 	important: true,
 	content: [
 		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -39,3 +41,5 @@ module.exports = withMT({
 	},
 	plugins: [plugin, scrollBarHide],
 });
+
+export default config;
