@@ -2,14 +2,13 @@
 
 import React, { MouseEventHandler } from 'react';
 import { signIn } from 'next-auth/react';
-import { Button } from '@material-tailwind/react';
 
 const EnterButton = () => {
 	const handleClick: MouseEventHandler<HTMLButtonElement> = (e): void => {};
 	return (
-		<Button type="button" onClick={handleClick}>
+		<button type="button" onClick={handleClick}>
 			GET START
-		</Button>
+		</button>
 	);
 };
 

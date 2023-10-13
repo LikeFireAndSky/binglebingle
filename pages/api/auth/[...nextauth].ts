@@ -19,6 +19,14 @@ export const authOption: AuthOptions = {
 	],
 
 	callbacks: {
+		async jwt({ token, account }) {
+			if (account?.accessToken) {
+				token.accessToken = account.accessToken;
+			}
+
+			return token;
+		},
+
 		async session({ session, token, user }: any) {
 			session.user.username = session?.user?.name
 				.split(' ')
@@ -26,7 +34,16 @@ export const authOption: AuthOptions = {
 				.toLocaleLowerCase();
 
 			session.user.uid = token.sub;
+			session.user.accessToken = token.accessToken;
 			return session;
+		},
+
+		async redirect({ url, baseUrl }) {
+			// Allows relative callback URLs
+			if (url.startsWith('/')) return `${baseUrl}${url}`;
+			// Allows callback URLs on the same origin
+			if (new URL(url).origin === baseUrl) return url;
+			return baseUrl;
 		},
 	},
 

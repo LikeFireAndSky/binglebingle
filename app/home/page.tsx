@@ -57,7 +57,7 @@ const Home = async () => {
 	// const data2 = await fetchPost();
 
 	return (
-		<section className="w-screen h-screen bg-yellow-900 flex flex-col justify-center items-center">
+		<section className="w-full h-screen bg-yellow-900 flex flex-col justify-center items-center">
 			<div className="rounded-md bg-white w-2/3 md:w-1/3 flex flex-col items-center py-10 group">
 				<h1 className="text-3xl font-['Taebaek'] text-center flex flex-col sm:flex-row sm:gap-2">
 					빙글빙글<p>돌림판</p>
