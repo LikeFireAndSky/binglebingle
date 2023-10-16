@@ -1,14 +1,21 @@
 'use client';
 
 import React, { MouseEventHandler } from 'react';
-import { signIn } from 'next-auth/react';
+import { Button } from '@material-tailwind/react/components/Button';
+import { useRouter } from 'next/navigation';
 
 const EnterButton = () => {
-	const handleClick: MouseEventHandler<HTMLButtonElement> = (e): void => {};
+	const router = useRouter();
+
+	const handleClick: MouseEventHandler<HTMLButtonElement> = (e): void => {
+		e.preventDefault();
+		router.push('/page');
+	};
+
 	return (
-		<button type="button" onClick={handleClick}>
+		<Button type="button" onClick={handleClick}>
 			GET START
-		</button>
+		</Button>
 	);
 };
 
