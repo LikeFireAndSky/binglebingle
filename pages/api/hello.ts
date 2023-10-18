@@ -3,9 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
 	const sendingData = {
-		name: 'John',
-		age: 30,
-		email: 'asdf@gamil.com',
+		인사: '안녕하세요',
 	};
 	res.status(200).json({ success: true, sendingData });
 }

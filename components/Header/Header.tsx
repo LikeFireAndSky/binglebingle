@@ -81,11 +81,14 @@ export default function NavbarSimple() {
 	}
 
 	return (
-		<Navbar className="w-full px-6 py-3 fixed mx-auto inset-x-0">
+		<Navbar className="w-full px-6 py-3 fixed mx-auto inset-x-0 z-50">
 			<div className="flex items-center justify-between text-blue-gray-900">
 				<Link href="/home">
-					<Typography variant="h6" className="mr-4 cursor-pointer py-1.5">
-						BINGLEBINGLE DOLIMPAN
+					<Typography
+						variant="h6"
+						className="mr-4 cursor-pointer py-1.5 font-['Taebaek']"
+					>
+						여행은제이지
 					</Typography>
 				</Link>
 				<div className="hidden lg:block">
