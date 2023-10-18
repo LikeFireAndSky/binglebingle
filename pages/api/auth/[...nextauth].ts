@@ -2,6 +2,8 @@ import NextAuth from 'next-auth/next';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { AuthOptions } from 'next-auth';
+import { FirestoreAdapter } from '@auth/firebase-adapter';
+import firebaseAdmin from '../../../lib/firebase.admin';
 
 // Dynamic 라우팅을 사용한는 이유는 signIn, callback, signOut을 자동으로 처리하기 위해서이다.
 
@@ -10,37 +12,43 @@ export const authOption: AuthOptions = {
 		GithubProvider({
 			clientId: process.env.GITHUB_CLIENT_ID!,
 			clientSecret: process.env.GITHUB_CLIENT_SECRETS!,
+			profile(profile) {
+				return {
+					id: profile.id.toString(),
+					name: profile.name || profile.login,
+					email: profile.email,
+					image: profile.avatar_url,
+					uid: profile.id.toString(),
+					username: profile.login,
+					role: profile.user ? 'admin' : 'user',
+				};
+			},
 		}),
 
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID!,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRETS!,
+			profile(profile) {
+				return {
+					id: profile.sub.toString(),
+					name: profile.name,
+					email: profile.email,
+					image: profile.picture,
+					uid: profile.sub.toString(),
+					username: profile.name,
+					role: profile.user ? 'admin' : 'user',
+				};
+			},
 		}),
 	],
 
+	adapter: FirestoreAdapter(firebaseAdmin),
+
 	callbacks: {
-		async jwt({ token, account }) {
-			if (account?.accessToken) {
-				token.accessToken = account.accessToken;
-			}
-
-			return token;
-		},
-
-		async session({ session, token, user }: any) {
-			session.user.username = session?.user?.name
-				.split(' ')
-				.join('')
-				.toLocaleLowerCase();
-
-			session.user.uid = token.sub;
-			session.user.accessToken = token.accessToken;
+		async session({ session, token, user }) {
+			session.user.username = session.user.name;
 			return session;
 		},
-
-		//		async signIn({ user, account, profile, email, credentials }) {
-		//			return true;
-		//		},
 
 		async redirect({ url, baseUrl }) {
 			// Allows relative callback URLs
