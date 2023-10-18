@@ -38,6 +38,10 @@ export const authOption: AuthOptions = {
 			return session;
 		},
 
+		//		async signIn({ user, account, profile, email, credentials }) {
+		//			return true;
+		//		},
+
 		async redirect({ url, baseUrl }) {
 			// Allows relative callback URLs
 			if (url.startsWith('/')) return `${baseUrl}${url}`;
