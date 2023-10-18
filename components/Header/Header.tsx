@@ -50,10 +50,10 @@ function NavList() {
 				className="p-1 font-medium"
 			>
 				<Link
-					href="/main"
+					href="/calendar"
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
-					MAIN
+					CALENDAR
 				</Link>
 			</Typography>
 			<LoginButton />
