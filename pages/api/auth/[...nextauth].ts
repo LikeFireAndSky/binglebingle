@@ -37,6 +37,18 @@ export const authOption: AuthOptions = {
 			session.user.accessToken = token.accessToken;
 			return session;
 		},
+
+		//		async signIn({ user, account, profile, email, credentials }) {
+		//			return true;
+		//		},
+
+		async redirect({ url, baseUrl }) {
+			// Allows relative callback URLs
+			if (url.startsWith('/')) return `${baseUrl}${url}`;
+			// Allows callback URLs on the same origin
+			if (new URL(url).origin === baseUrl) return url;
+			return baseUrl;
+		},
 	},
 
 	secret: process.env.NEXTAUTH_SECRET!,

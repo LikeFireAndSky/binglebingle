@@ -1,26 +1,11 @@
 'use client';
 
 import React from 'react';
-import lottie from 'lottie-web';
+import Lottie from 'react-lottie-player';
 import animaionData from '../../public/Polite Chicky.json';
 
-const Lottie = () => {
-	const ref = React.useRef(null);
-	React.useEffect(() => {
-		if (!ref.current) {
-			return;
-		}
-		const anim = lottie.loadAnimation({
-			container: ref.current,
-			renderer: 'svg',
-			loop: true,
-			autoplay: true,
-			animationData: animaionData,
-		});
+const HomeAnimation = React.memo(() => {
+	return <Lottie loop animationData={animaionData} play />;
+});
 
-		return () => anim.destroy(); // optional clean up for unmounting
-	}, []);
-	return <div ref={ref} className="w-56 h-56"></div>;
-};
-
-export default Lottie;
+export default HomeAnimation;
