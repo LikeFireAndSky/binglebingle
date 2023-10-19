@@ -1,6 +1,7 @@
 import React from 'react';
 import CarouselTransition from '@/components/Carousel/Carousel';
 import CarouselAnimation from '@/components/Lottie/Lottie.leaf';
+import CarouselButton from './Carousel.button';
 import { textWeb, textMobile } from './Carousel.text';
 
 const CarouselWrapper = (data: any) => {
@@ -20,7 +21,7 @@ const CarouselWrapper = (data: any) => {
 				<div className="absolute inset-0 w-full -z-10 object-cover overflow-hidden">
 					<CarouselAnimation />
 				</div>
-				<h1 className="text-lg sm:text-2xl font-['Taebaek']">
+				<h1 className="text-lg sm:text-2xl mb-3 font-['Taebaek']">
 					<strong className="text-3xl font-normal">
 						&quot;{getMonth()}월&quot;
 					</strong>
@@ -28,6 +29,9 @@ const CarouselWrapper = (data: any) => {
 				</h1>
 				<p className="hidden md:block">{textWeb}</p>
 				<p className="block md:hidden">{textMobile}</p>
+				<div className="absolute bottom-0 w-full hidden lg:block">
+					<CarouselButton />
+				</div>
 			</div>
 		</div>
 	);

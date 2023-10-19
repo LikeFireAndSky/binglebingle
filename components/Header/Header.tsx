@@ -24,10 +24,10 @@ function NavList() {
 				className="p-1 font-medium"
 			>
 				<Link
-					href="/home"
+					href="/main"
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
-					Home
+					MAIN
 				</Link>
 			</Typography>
 			<Typography
@@ -54,6 +54,19 @@ function NavList() {
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
 					CALENDAR
+				</Link>
+			</Typography>
+			<Typography
+				as="li"
+				variant="small"
+				color="blue-gray"
+				className="p-1 font-medium"
+			>
+				<Link
+					href="/mypage"
+					className="flex items-center hover:text-blue-500 transition-colors"
+				>
+					MYPAGE
 				</Link>
 			</Typography>
 			<LoginButton />
