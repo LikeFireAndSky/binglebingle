@@ -81,7 +81,7 @@ export default function NavbarSimple() {
 	}
 
 	return (
-		<Navbar className="w-full px-6 py-3 fixed mx-auto inset-x-0 z-50">
+		<Navbar className="w-full px-6 py-3 fixed mx-auto inset-x-0 z-[5]">
 			<div className="flex items-center justify-between text-blue-gray-900">
 				<Link href="/home">
 					<Typography
