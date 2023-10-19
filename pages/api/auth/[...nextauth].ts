@@ -49,7 +49,6 @@ export const authOption: AuthOptions = {
 		async session({ session, token, user }) {
 			session.user.username = session.user.name;
 			session.user.uid = user.id;
-			console.log('token', user.id);
 			return session;
 		},
 
