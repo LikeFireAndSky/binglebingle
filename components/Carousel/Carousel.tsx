@@ -7,52 +7,47 @@ import {
 	ArrowSmallRightIcon,
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import image0 from '@/public/images/0.jpg';
-import image1 from '@/public/images/1.jpg';
-import image2 from '@/public/images/2.jpg';
 
-const CarouselCustomArrows = () => {
+const CarouselCustomArrows = (data: any) => {
+	const result = data.data.data;
 	return (
 		<Carousel
-			className="rounded-xl h-96 w-full relative"
+			className="rounded-xl h-48 w-full max-w-3xl relative sm:h-96"
 			prevArrow={({ handlePrev }) => (
 				<IconButton
 					variant="text"
 					color="white"
-					size="lg"
+					size="sm"
 					onClick={handlePrev}
 					className="absolute top-2/4 left-4 -translate-y-2/4"
 				>
-					<ArrowSmallLeftIcon className="h-6 w-6" />
+					<ArrowSmallLeftIcon className="h-3 w-3 sm:h-6 sm:w-6" />
 				</IconButton>
 			)}
 			nextArrow={({ handleNext }) => (
 				<IconButton
 					variant="text"
 					color="white"
-					size="lg"
+					size="sm"
 					onClick={handleNext}
 					className="absolute top-2/4 !right-4 -translate-y-2/4"
 				>
-					<ArrowSmallRightIcon className="h-6 w-6" />
+					<ArrowSmallRightIcon className="h-3 w-3 sm:h-6 sm:w-6" />
 				</IconButton>
 			)}
 		>
-			<Image
-				src={image0}
-				alt="image 1"
-				className="h-full w-full object-cover"
-			/>
-			<Image
-				src={image1}
-				alt="image 2"
-				className="h-full w-full object-cover"
-			/>
-			<Image
-				src={image2}
-				alt="image 3"
-				className="h-full w-full object-cover"
-			/>
+			{result &&
+				result.map((item: any, index: number) => {
+					return (
+						<Image
+							key={index}
+							src={item.image}
+							alt={item.title}
+							priority={true}
+							className="rounded-xl object-cover w-full h-full"
+						/>
+					);
+				})}
 		</Carousel>
 	);
 };
