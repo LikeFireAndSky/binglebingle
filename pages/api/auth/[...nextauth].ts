@@ -21,7 +21,7 @@ export const authOption: AuthOptions = {
 					image: profile.avatar_url,
 					uid: profile.id.toString(),
 					username: profile.login,
-					role: profile.user ? 'admin' : 'user',
+					role: profile.user === 'admin' ? 'admin' : 'user',
 				};
 			},
 		}),
@@ -37,7 +37,7 @@ export const authOption: AuthOptions = {
 					image: profile.picture,
 					uid: profile.sub.toString(),
 					username: profile.name,
-					role: profile.user ? 'admin' : 'user',
+					role: profile.user === 'admin' ? 'admin' : 'user',
 				};
 			},
 		}),
@@ -49,6 +49,7 @@ export const authOption: AuthOptions = {
 		async session({ session, token, user }) {
 			session.user.username = session.user.name;
 			session.user.uid = user.id;
+			console.log('token', user.id);
 			return session;
 		},
 

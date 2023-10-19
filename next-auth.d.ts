@@ -8,7 +8,7 @@ declare module 'next-auth' {
 			email?: string;
 			image?: string;
 			accessToken?: string;
-			uid: string;
+			uid?: string;
 			username?: string;
 		} & DefaultUser;
 	}
