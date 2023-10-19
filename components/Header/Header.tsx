@@ -16,7 +16,7 @@ function NavList() {
 	const router = useRouter();
 	// URL명이 /home이면, navbar를 숨김
 	return (
-		<ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+		<div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
 			<Typography
 				as="li"
 				variant="small"
@@ -70,7 +70,7 @@ function NavList() {
 				</Link>
 			</Typography>
 			<LoginButton />
-		</ul>
+		</div>
 	);
 }
 
