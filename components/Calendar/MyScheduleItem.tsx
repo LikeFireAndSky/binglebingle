@@ -1,17 +1,33 @@
 import { Button } from '@material-tailwind/react';
 import React from 'react';
+// import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from '@hello-pangea/dnd';
 
 interface Title {
-	title: string | number;
+	title: string;
+	index: number;
 }
-const MyScheduleItem = ({ title }: Title) => {
+const MyScheduleItem = ({ title, index }: Title) => {
+	if (index === undefined) {
+		return null;
+	}
 	return (
-		<Button
-			variant="gradient"
-			className="w-1/2 mx-auto mt-5 hover:bg-primary-color"
-		>
-			{title}
-		</Button>
+		<Draggable draggableId={title} index={index}>
+			{(provided) => (
+				<div
+					ref={provided.innerRef}
+					{...provided.draggableProps}
+					{...provided.dragHandleProps}
+				>
+					<Button
+						variant="gradient"
+						className="w-1/2 mx-auto mt-5 hover:bg-primary-color"
+					>
+						{title}
+					</Button>
+				</div>
+			)}
+		</Draggable>
 	);
 };
 
