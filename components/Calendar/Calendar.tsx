@@ -1,21 +1,9 @@
 import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import { myEventsList } from '@/data/TestData';
 
 export const localizer = momentLocalizer(moment);
-
-export const myEventsList = [
-	{
-		title: '수원 여행 가자',
-		start: new Date(2023, 9, 16, 12, 6, 0),
-		end: new Date(2023, 9, 18, 12, 6, 0),
-	},
-	{
-		title: '평택 여행 가자',
-		start: new Date(2023, 9, 18, 12, 6, 0),
-		end: new Date(2023, 9, 20, 12, 6, 0),
-	},
-];
 
 export const calendarStyle = {
 	width: 800,

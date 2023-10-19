@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	reactStrictMode: true,
+	// reactStrictMode: true,
 	images: {
 		domains: ['dvfx9cgvtgnyd.cloudfront.net'],
 	},

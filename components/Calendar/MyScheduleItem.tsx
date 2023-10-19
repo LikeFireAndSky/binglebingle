@@ -6,7 +6,10 @@ interface Title {
 }
 const MyScheduleItem = ({ title }: Title) => {
 	return (
-		<Button variant="gradient" className="w-1/2 mx-auto mt-5">
+		<Button
+			variant="gradient"
+			className="w-1/2 mx-auto mt-5 hover:bg-primary-color"
+		>
 			{title}
 		</Button>
 	);
