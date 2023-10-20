@@ -20,7 +20,7 @@ import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 // import 'react-big-calendar/lib/addons/dragAndDrop/styles';
 
 const MySchedule = () => {
-	// 임시 함수
+	// 임시 함수 => react.memo 로 감싸놔야함.
 	const onDragEnd = (arg: any) => {
 		console.log(arg);
 	};
