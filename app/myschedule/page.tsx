@@ -2,7 +2,7 @@
 
 // react
 import React, { useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 // react-big-calendar
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -22,23 +22,23 @@ import { useSession } from 'next-auth/react';
 // import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 // import 'react-big-calendar/lib/addons/dragAndDrop/styles';
 
-// const getUserData = async (userUid: string) => {
-// 	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
-// 		method: 'GET',
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 		},
-// 	});
-// 	if (!response.ok) {
-// 		throw new Error('Network response was not ok');
-// 	}
-// 	return response.json();
-// };
-
-const getUserDataByAxios = async (userUid: string) => {
-	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
-	return data;
+const getUserData = async (userUid: string) => {
+	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+	if (!response.ok) {
+		throw new Error('Network response was not ok');
+	}
+	return response.json();
 };
+
+// const getUserDataByAxios = async (userUid: string) => {
+// 	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
+// 	return data;
+// };
 
 const queryOptions = {
 	staleTime: 1000 * 60 * 5, // 5분
@@ -51,7 +51,7 @@ const MySchedule = () => {
 
 	const { data, error, isLoading } = useQuery(
 		[userUid],
-		() => getUserDataByAxios(userUid),
+		() => getUserData(userUid),
 		queryOptions,
 	);
 
