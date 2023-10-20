@@ -9,7 +9,7 @@ const EnterButton = () => {
 
 	const handleClick: MouseEventHandler<HTMLButtonElement> = (e): void => {
 		e.preventDefault();
-		router.push('/page');
+		router.push('/main');
 	};
 
 	return (
