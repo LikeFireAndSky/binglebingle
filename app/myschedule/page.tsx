@@ -2,6 +2,8 @@
 
 // react
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 // react-big-calendar
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
@@ -16,11 +18,35 @@ import { myItemTitle } from '@/data/TestData';
 /* 드래그 기능 추가 시 필요한 import 구문 */
 // import { DragDropContext } from 'react-beautiful-dnd';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
+import { useSession } from 'next-auth/react';
 // import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 // import 'react-big-calendar/lib/addons/dragAndDrop/styles';
 
+// const getUserData = async (userUid: string) => {
+// 	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
+// 		method: 'GET',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 	});
+// 	if (!response.ok) {
+// 		throw new Error('Network response was not ok');
+// 	}
+// 	return response.json();
+// };
+
+const getUserDataByAxios = async (userUid: string) => {
+	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
+	return data;
+};
+
+const queryOptions = {
+	staleTime: 1000 * 60 * 5, // 5분
+	cacheTime: 1000 * 60 * 5, // 5분
+};
+
 const MySchedule = () => {
-	// 임시 함수 => react.memo 로 감싸놔야함.
+	// 임시 함수
 	const onDragEnd = (arg: any) => {
 		console.log(arg);
 	};
@@ -41,13 +67,14 @@ const MySchedule = () => {
 											내 일정을 입력해보세요
 										</p>
 										<div className="scheduleList w-full my-4 text-center flex flex-col justify-center">
-											{myItemTitle.map((title, titleIndex) => (
-												<MyScheduleItem
-													key={titleIndex}
-													title={title}
-													index={titleIndex}
-												/>
-											))}
+											{data?.data &&
+												data.data.trip_list.map((items: any, index: number) => (
+													<MyScheduleItem
+														key={items.trip_id}
+														index={index}
+														title={items.trip_name}
+													/>
+												))}
 											{provided.placeholder}
 										</div>
 										<div className="btnContainer my-5 mx-auto flex flex-row justify-center gap-4">

@@ -51,6 +51,7 @@ const MyPage = () => {
 							<div className="flex flex-row gap-2">
 								<Chip value="이메일" />
 								{session?.user.email}
+								{session?.user.uid}
 							</div>
 						</div>
 					</CardBody>

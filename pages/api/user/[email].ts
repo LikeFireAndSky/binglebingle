@@ -6,10 +6,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	// DB에서 유저 정보 가져오는 API
 
 	if (req.method === 'GET') {
-		const { email } = req.query;
+		const { userUid } = req.query;
 		try {
 			const { user } = req.query;
-			const docRef = doc(db, 'users', email as string);
+			console.log(req.query);
+			const docRef = doc(db, 'users', userUid as string);
 			const returnData = (await getDoc(docRef)).data();
 			if (!returnData) {
 				res.status(404).json({ message: 'Not Found' });

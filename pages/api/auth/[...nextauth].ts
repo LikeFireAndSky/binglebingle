@@ -46,7 +46,7 @@ export const authOption: AuthOptions = {
 	adapter: FirestoreAdapter(firebaseAdmin),
 
 	callbacks: {
-		async session({ session, token, user }) {
+		async session({ session, user }) {
 			session.user.username = session.user.name;
 			session.user.uid = user.id;
 			return session;

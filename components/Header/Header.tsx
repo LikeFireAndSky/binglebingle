@@ -50,7 +50,7 @@ function NavList() {
 				className="p-1 font-medium"
 			>
 				<Link
-					href="/calendar"
+					href="/myschedule"
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
 					CALENDAR
