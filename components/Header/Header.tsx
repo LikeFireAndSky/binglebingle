@@ -16,7 +16,7 @@ function NavList() {
 	const router = useRouter();
 	// URL명이 /home이면, navbar를 숨김
 	return (
-		<ul className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+		<div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
 			<Typography
 				as="li"
 				variant="small"
@@ -24,10 +24,10 @@ function NavList() {
 				className="p-1 font-medium"
 			>
 				<Link
-					href="/home"
+					href="/main"
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
-					Home
+					MAIN
 				</Link>
 			</Typography>
 			<Typography
@@ -50,14 +50,27 @@ function NavList() {
 				className="p-1 font-medium"
 			>
 				<Link
-					href="/main"
+					href="/calendar"
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
-					MAIN
+					CALENDAR
+				</Link>
+			</Typography>
+			<Typography
+				as="li"
+				variant="small"
+				color="blue-gray"
+				className="p-1 font-medium"
+			>
+				<Link
+					href="/mypage"
+					className="flex items-center hover:text-blue-500 transition-colors"
+				>
+					MYPAGE
 				</Link>
 			</Typography>
 			<LoginButton />
-		</ul>
+		</div>
 	);
 }
 
@@ -81,7 +94,7 @@ export default function NavbarSimple() {
 	}
 
 	return (
-		<Navbar className="w-full px-6 py-3 fixed mx-auto inset-x-0 z-50">
+		<Navbar className="w-full px-6 py-3 fixed mx-auto inset-x-0 z-[5]">
 			<div className="flex items-center justify-between text-blue-gray-900">
 				<Link href="/home">
 					<Typography
