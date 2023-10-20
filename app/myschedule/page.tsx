@@ -63,9 +63,6 @@ const MySchedule = () => {
 		return <div>error</div>;
 	}
 
-	console.log(data);
-	console.log(data?.data.email);
-	console.log(data?.data.trip_list[0].trip_name);
 	// 임시 함수
 	const onDragEnd = (arg: any) => {
 		console.log(arg);
