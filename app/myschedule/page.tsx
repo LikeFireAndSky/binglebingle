@@ -65,7 +65,7 @@ const MySchedule = () => {
 
 	// 임시 함수
 	const onDragEnd = (arg: any) => {
-		console.log(arg);
+		// console.log(arg);
 	};
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>

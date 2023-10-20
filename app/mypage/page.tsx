@@ -1,10 +1,20 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { Card, CardBody, Chip, Typography } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useQuery } from '@tanstack/react-query';
+
+const getTripData = async () => {
+	const data = await axios.get('/api/trip/get');
+	if (!data) {
+		throw new Error('Network response was not ok');
+	}
+	return data;
+};
 
 const MyPage = () => {
 	const router = useRouter();
@@ -21,7 +31,25 @@ const MyPage = () => {
 			});
 		},
 	});
-	const ref = useRef(null);
+
+	const queryOptions = {
+		staleTime: 1000 * 60 * 5, // 5분
+		cacheTime: 1000 * 60 * 5, // 5분
+	};
+
+	const { data, error, isLoading } = useQuery(
+		['trip'],
+		() => getTripData(),
+		queryOptions,
+	);
+
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
+	if (error) {
+		return <div>Error...</div>;
+	}
 
 	return (
 		<section className="mx-auto absolute inset-0 top-20 w-2/3 lg:w-3/5 flex flex-col  items-center">
@@ -33,10 +61,7 @@ const MyPage = () => {
 			</div>
 			<div id="body" className="w-full mt-3 flex flex-col">
 				<Card>
-					<CardBody
-						ref={ref}
-						className="grid grid-flow-col items-center justify-around"
-					>
+					<CardBody className="grid grid-flow-col items-center justify-around">
 						<Image
 							src={session?.user.image as string}
 							alt="user Image"
@@ -54,6 +79,12 @@ const MyPage = () => {
 								{session?.user.uid}
 							</div>
 						</div>
+						<Card>
+							{data?.data &&
+								data.data.map((items: any, index: number) => {
+									return <div key={index}>{items.trip_name}</div>;
+								})}
+						</Card>
 					</CardBody>
 				</Card>
 			</div>
