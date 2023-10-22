@@ -20,7 +20,7 @@ const getTripData = async () => {
 
 const getUserSessionData = async (userUid: string) => {
 	const currentUrl = getCurrentUrl();
-	const data = await axios.get(`${currentUrl}/api/user/get?userUid=${userUid}`);
+	const data = await axios.get(`/api/user/get?userUid=${userUid}`);
 	if (!data) {
 		throw new Error('Network response was not ok');
 	}
