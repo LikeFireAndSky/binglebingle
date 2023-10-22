@@ -3,10 +3,12 @@
 import React from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
+import absoulteUrl from 'next-absolute-url';
 import { Card, CardBody, Chip, Typography } from '@material-tailwind/react';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
+import getCurrentUrl from '@/utils/getCurrentUrl.client';
 
 const getTripData = async () => {
 	const data = await axios.get('/api/trip/get');
@@ -17,7 +19,8 @@ const getTripData = async () => {
 };
 
 const getUserSessionData = async (userUid: string) => {
-	const data = await axios.get(`/api/user/${userUid}`);
+	const currentUrl = getCurrentUrl();
+	const data = await axios.get(`${currentUrl}/api/user/${userUid}`);
 	if (!data) {
 		throw new Error('Network response was not ok');
 	}
