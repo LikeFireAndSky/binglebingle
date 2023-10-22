@@ -27,7 +27,6 @@ const Testpage = () => {
 		getAllUsers(session?.user.uid as string),
 	);
 
-	console.log(data);
 	return <div>{data && data.data[0].name}</div>;
 };
 

@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			const { userUid } = req.query;
 			console.log(userUid);
 			const docRef = doc(db, 'users', userUid as string);
-			const returnData = (await getDoc(docRef)).data();
+			const returnData = await getDoc(docRef);
 			if (!returnData) {
 				res.status(404).json({ message: 'Not Found' });
 			} else {
