@@ -5,8 +5,6 @@ import CarouselWrapper from '@/components/Carousel/Carousel.wrapper';
 import MockData from './main.mockup';
 
 const page = () => {
-	console.log(cookies);
-	console.log('main page');
 	return (
 		<section className="mx-auto absolute inset-0 top-20 w-4/5 flex flex-col  items-center">
 			<div id="header" className="flex flex-col w-full items-center mt-3 ">

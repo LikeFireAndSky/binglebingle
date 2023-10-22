@@ -49,8 +49,6 @@ const MyPage = () => {
 		queryOptions,
 	);
 
-	console.log(session?.user.uid);
-
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}
@@ -58,8 +56,6 @@ const MyPage = () => {
 	if (error) {
 		return <div>Error...</div>;
 	}
-
-	console.log(userData);
 
 	return (
 		<section className="mx-auto absolute inset-0 top-20 w-2/3 lg:w-3/5 flex flex-col  items-center">
