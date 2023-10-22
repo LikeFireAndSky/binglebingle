@@ -8,6 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method === 'GET') {
 		try {
 			const { userUid } = req.query;
+			console.log(userUid);
 			const docRef = doc(db, 'users', userUid as string);
 			const returnData = (await getDoc(docRef)).data();
 			if (!returnData) {
