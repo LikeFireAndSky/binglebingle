@@ -18,8 +18,7 @@ const getTripData = async () => {
 	return data;
 };
 
-const getUserSessionData = async (userUid: string) => {
-	const currentUrl = getCurrentUrl();
+const generateStaticParams = async (userUid: string) => {
 	const data = await axios.get(`/api/user/get?userUid=${userUid}`);
 	if (!data) {
 		throw new Error('Network response was not ok');
@@ -55,8 +54,8 @@ const MyPage = () => {
 	);
 
 	const { data: userData } = useQuery(
-		['asdfsds'],
-		() => getUserSessionData(session?.user.uid as string),
+		[session?.user.uid],
+		() => generateStaticParams(session?.user.uid as string),
 		queryOptions,
 	);
 

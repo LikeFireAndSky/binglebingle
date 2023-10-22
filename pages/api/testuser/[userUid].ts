@@ -5,7 +5,6 @@ import { getDocs, collection, getDoc, query } from 'firebase/firestore';
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	// DB에서 모든 데이터를 가져오는 API
 	const { userUid } = req.query;
-	console.log(userUid);
 	try {
 		const querySnapshot = await getDocs(collection(db, 'users'));
 		const returnData = querySnapshot.docs.map((doc) => doc.data());
