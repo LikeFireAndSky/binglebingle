@@ -55,7 +55,7 @@ const MyPage = () => {
 	);
 
 	const { data: userData } = useQuery(
-		[session?.user.uid],
+		['asdfsds'],
 		() => getUserSessionData(session?.user.uid as string),
 		queryOptions,
 	);
