@@ -3,12 +3,10 @@
 import React from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import absoulteUrl from 'next-absolute-url';
 import { Card, CardBody, Chip, Typography } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
-import getCurrentUrl from '@/utils/getCurrentUrl.client';
 
 const getTripData = async () => {
 	const data = await axios.get('/api/trip/get');
@@ -32,15 +30,7 @@ const MyPage = () => {
 		router.push('/main');
 	};
 
-	const { data: session } = useSession({
-		required: true,
-		onUnauthenticated() {
-			routeToMain();
-			setTimeout(() => {
-				alert('로그인이 필요한 서비스입니다.');
-			});
-		},
-	});
+	const { data: session } = useSession();
 
 	const queryOptions = {
 		staleTime: 1000 * 60 * 5, // 5분
