@@ -19,6 +19,7 @@ import { myItemTitle } from '@/data/TestData';
 // import { DragDropContext } from 'react-beautiful-dnd';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { useSession } from 'next-auth/react';
+import CustomCalendar from '@/components/Calendar/CustomCalendar';
 // import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 // import 'react-big-calendar/lib/addons/dragAndDrop/styles';
 
@@ -35,17 +36,37 @@ import { useSession } from 'next-auth/react';
 // 	return response.json();
 // };
 
-const getUserDataByAxios = async (userUid: string) => {
-	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
-	return data;
-};
+// const getUserDataByAxios = async (userUid: string) => {
+// 	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
+// 	return data;
+// };
 
-const queryOptions = {
-	staleTime: 1000 * 60 * 5, // 5분
-	cacheTime: 1000 * 60 * 5, // 5분
-};
+// const queryOptions = {
+// 	staleTime: 1000 * 60 * 5, // 5분
+// 	cacheTime: 1000 * 60 * 5, // 5분
+// };
 
 const MySchedule = () => {
+	// const { data: session } = useSession();
+	// const userUid = session?.user?.uid as string;
+
+	// const { data, error, isLoading } = useQuery(
+	// 	[userUid],
+	// 	() => getUserDataByAxios(userUid),
+	// 	queryOptions,
+	// );
+
+	// if (isLoading) {
+	// 	return <div>Loading...</div>;
+	// }
+
+	// if (error) {
+	// 	return <div>error</div>;
+	// }
+
+	// console.log(data);
+	// console.log(data?.data.email);
+	// console.log(data?.data.trip_list[0].trip_name);
 	// 임시 함수
 	const onDragEnd = (arg: any) => {
 		console.log(arg);
@@ -58,7 +79,8 @@ const MySchedule = () => {
 						<div className="container mx-auto">
 							<div className="flex flex-row justify-between">
 								<div className="w-1/2 mt-20">
-									<MyCalendar />
+									{/* <MyCalendar /> */}
+									<CustomCalendar />
 									{provided.placeholder}
 								</div>
 								<div className="w-1/2 mt-20 ml-10 flex flex-col justify-center">
@@ -66,7 +88,7 @@ const MySchedule = () => {
 										<p className="schedule__title mt-4 text-center font-primary-font">
 											내 일정을 입력해보세요
 										</p>
-										<div className="scheduleList w-full my-4 text-center flex flex-col justify-center">
+										{/* <div className="scheduleList w-full my-4 text-center flex flex-col justify-center">
 											{data?.data &&
 												data.data.trip_list.map((items: any, index: number) => (
 													<MyScheduleItem
@@ -76,7 +98,7 @@ const MySchedule = () => {
 													/>
 												))}
 											{provided.placeholder}
-										</div>
+										</div> */}
 										<div className="btnContainer my-5 mx-auto flex flex-row justify-center gap-4">
 											<EnrollSchedule />
 											<EnrollSchedule />
