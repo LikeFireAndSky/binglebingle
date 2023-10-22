@@ -4,7 +4,7 @@ import React from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { Card, CardBody, Chip, Typography } from '@material-tailwind/react';
-import { useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 
