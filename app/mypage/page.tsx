@@ -54,9 +54,6 @@ const MyPage = () => {
 		queryOptions,
 	);
 
-	console.log(userData2);
-	alert(userData2?.data.email);
-
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}
