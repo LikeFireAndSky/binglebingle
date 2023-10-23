@@ -1,7 +1,11 @@
 import { NextResponse, type NextMiddleware, NextRequest } from 'next/server';
 
 const middleware: NextMiddleware = (req: NextRequest) => {
-	const cookie = req.cookies.get('next-auth.session-token');
+	const cookieBasedEnv =
+		process.env.NODE_ENV === 'production'
+			? '__Secure-next-auth.session-token'
+			: 'next-auth.session-token';
+	const cookie = req.cookies.get(cookieBasedEnv);
 
 	const makeUrl = (pathname: string) => {
 		const url = req.nextUrl.clone();
