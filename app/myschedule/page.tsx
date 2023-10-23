@@ -2,7 +2,7 @@
 
 // react
 import React, { useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 // react-big-calendar
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -22,17 +22,22 @@ import CustomCalendar from '@/components/Calendar/CustomCalendar';
 // import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 // import 'react-big-calendar/lib/addons/dragAndDrop/styles';
 
-// const getUserData = async (userUid: string) => {
-// 	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
-// 		method: 'GET',
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 		},
-// 	});
-// 	if (!response.ok) {
-// 		throw new Error('Network response was not ok');
-// 	}
-// 	return response.json();
+const getUserData = async (userUid: string) => {
+	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+	if (!response.ok) {
+		throw new Error('Network response was not ok');
+	}
+	return response.json();
+};
+
+// const getUserDataByAxios = async (userUid: string) => {
+// 	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
+// 	return data;
 // };
 
 // const getUserDataByAxios = async (userUid: string) => {
@@ -68,7 +73,7 @@ const MySchedule = () => {
 	// console.log(data?.data.trip_list[0].trip_name);
 	// 임시 함수
 	const onDragEnd = (arg: any) => {
-		console.log(arg);
+		// console.log(arg);
 	};
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>

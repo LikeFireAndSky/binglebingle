@@ -1,4 +1,5 @@
 import React from 'react';
+import { cookies } from 'next/headers';
 import CarouselButton from '@/components/Carousel/Carousel.button';
 import CarouselWrapper from '@/components/Carousel/Carousel.wrapper';
 import MockData from './main.mockup';
