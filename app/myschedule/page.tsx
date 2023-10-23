@@ -8,12 +8,11 @@ import { useQuery } from '@tanstack/react-query';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 // calendar 관련 components
-import MyCalendar from '@/components/Calendar/Calendar';
+// import MyCalendar from '@/components/Calendar/Calendar';
 import MyScheduleItem from '@/components/Calendar/MyScheduleItem';
 
 // custom components
 import EnrollSchedule from '@/components/Calendar/EnrollSchedule';
-import { myItemTitle } from '@/data/TestData';
 
 /* 드래그 기능 추가 시 필요한 import 구문 */
 // import { DragDropContext } from 'react-beautiful-dnd';
