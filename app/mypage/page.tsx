@@ -16,6 +16,14 @@ const getTripData = async () => {
 	return data;
 };
 
+const generateStaticParams = async (userUid: string) => {
+	const data = await axios.get(`/api/user/get?userUid=${userUid}`);
+	if (!data) {
+		throw new Error('Network response was not ok');
+	}
+	return data;
+};
+
 const MyPage = () => {
 	const router = useRouter();
 	const routeToMain = () => {
@@ -24,12 +32,7 @@ const MyPage = () => {
 
 	const { data: session } = useSession({
 		required: true,
-		onUnauthenticated() {
-			routeToMain();
-			setTimeout(() => {
-				alert('로그인이 필요한 서비스입니다.');
-			});
-		},
+		onUnauthenticated: () => routeToMain(),
 	});
 
 	const queryOptions = {
@@ -40,6 +43,12 @@ const MyPage = () => {
 	const { data, error, isLoading } = useQuery(
 		['trip'],
 		() => getTripData(),
+		queryOptions,
+	);
+
+	const { data: userData } = useQuery(
+		[session?.user.uid],
+		() => generateStaticParams(session?.user.uid as string),
 		queryOptions,
 	);
 
@@ -88,6 +97,11 @@ const MyPage = () => {
 					</CardBody>
 				</Card>
 			</div>
+			{userData && <h1>{userData.data.name}의 정보입니다</h1>}
+			<ul className="text-center">
+				<li>이름 : {userData?.data.name}</li>
+				<li>이메일 : {userData?.data.email}</li>
+			</ul>
 		</section>
 	);
 };
