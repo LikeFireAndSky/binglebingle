@@ -16,6 +16,14 @@ const ppap = async (userUid: string) => {
 	return data;
 };
 
+const testAPIWithDynamicRouting = async (userUid: string) => {
+	const data = await axios.get(`/api/user/${userUid}`);
+	if (!data) {
+		throw new Error('Network response was not ok');
+	}
+	return data;
+};
+
 const MyPage = () => {
 	const router = useRouter();
 	const routeToMain = () => {
@@ -39,6 +47,15 @@ const MyPage = () => {
 		() => ppap(session?.user.uid as string),
 		queryOptions,
 	);
+
+	const { data: userData2 } = useQuery(
+		[session?.user.uid],
+		() => testAPIWithDynamicRouting(session?.user.uid as string),
+		queryOptions,
+	);
+
+	console.log(userData2);
+	alert(userData2?.data.email);
 
 	if (isLoading) {
 		return <div>Loading...</div>;
