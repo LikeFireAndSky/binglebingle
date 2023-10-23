@@ -30,7 +30,10 @@ const MyPage = () => {
 		router.push('/main');
 	};
 
-	const { data: session } = useSession();
+	const { data: session } = useSession({
+		required: true,
+		onUnauthenticated: () => routeToMain(),
+	});
 
 	const queryOptions = {
 		staleTime: 1000 * 60 * 5, // 5분
