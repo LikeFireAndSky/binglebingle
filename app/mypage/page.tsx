@@ -8,15 +8,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 
-const getTripData = async () => {
-	const data = await axios.get('/api/trip/get');
-	if (!data) {
-		throw new Error('Network response was not ok');
-	}
-	return data;
-};
-
-const generateStaticParams = async (userUid: string) => {
+const ppap = async (userUid: string) => {
 	const data = await axios.get(`/api/user/get?userUid=${userUid}`);
 	if (!data) {
 		throw new Error('Network response was not ok');
@@ -40,24 +32,16 @@ const MyPage = () => {
 		cacheTime: 1000 * 60 * 5, // 5분
 	};
 
-	const { data, error, isLoading } = useQuery(
-		['trip'],
-		() => getTripData(),
-		queryOptions,
-	);
+	// generateStaticParams
 
-	const { data: userData } = useQuery(
+	const { data: userData, isLoading } = useQuery(
 		[session?.user.uid],
-		() => generateStaticParams(session?.user.uid as string),
+		() => ppap(session?.user.uid as string),
 		queryOptions,
 	);
 
 	if (isLoading) {
 		return <div>Loading...</div>;
-	}
-
-	if (error) {
-		return <div>Error...</div>;
 	}
 
 	return (
@@ -88,12 +72,6 @@ const MyPage = () => {
 								{session?.user.uid}
 							</div>
 						</div>
-						<Card>
-							{data?.data &&
-								data.data.map((items: any, index: number) => {
-									return <div key={index}>{items.trip_name}</div>;
-								})}
-						</Card>
 					</CardBody>
 				</Card>
 			</div>
