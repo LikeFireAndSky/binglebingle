@@ -37,10 +37,10 @@ function NavList() {
 				className="p-1 font-medium"
 			>
 				<Link
-					href="/page"
+					href="/choose"
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
-					PAGE
+					CHOOSE
 				</Link>
 			</Typography>
 			<Typography
