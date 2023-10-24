@@ -8,74 +8,84 @@ import { useQuery } from '@tanstack/react-query';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 // calendar 관련 components
-import MyCalendar from '@/components/Calendar/Calendar';
+// import MyCalendar from '@/components/Calendar/Calendar';
 import MyScheduleItem from '@/components/Calendar/MyScheduleItem';
 
 // custom components
 import EnrollSchedule from '@/components/Calendar/EnrollSchedule';
-import { myItemTitle } from '@/data/TestData';
 
 /* 드래그 기능 추가 시 필요한 import 구문 */
 // import { DragDropContext } from 'react-beautiful-dnd';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { useSession } from 'next-auth/react';
+import CustomCalendar from '@/components/Calendar/CustomCalendar';
+import axios from 'axios';
 // import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 // import 'react-big-calendar/lib/addons/dragAndDrop/styles';
 
-const getUserData = async (userUid: string) => {
-	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-	if (!response.ok) {
-		throw new Error('Network response was not ok');
-	}
-	return response.json();
-};
+// const getUserData = async (userUid: string) => {
+// 	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
+// 		method: 'GET',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 	});
+// 	if (!response.ok) {
+// 		throw new Error('Network response was not ok');
+// 	}
+// 	return response.json();
+// };
 
 // const getUserDataByAxios = async (userUid: string) => {
 // 	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
 // 	return data;
 // };
 
-const queryOptions = {
-	staleTime: 1000 * 60 * 5, // 5분
-	cacheTime: 1000 * 60 * 5, // 5분
-};
+// const getUserDataByAxios = async (userUid: string) => {
+// 	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
+// 	return data;
+// };
+
+// const queryOptions = {
+// 	staleTime: 1000 * 60 * 5, // 5분
+// 	cacheTime: 1000 * 60 * 5, // 5분
+// };
 
 const MySchedule = () => {
-	const { data: session } = useSession();
-	const userUid = session?.user?.uid as string;
+	// const { data: session } = useSession();
+	// const userUid = session?.user?.uid as string;
 
-	const { data, error, isLoading } = useQuery(
-		[userUid],
-		() => getUserData(userUid),
-		queryOptions,
-	);
+	// const { data, error, isLoading } = useQuery(
+	// 	[userUid],
+	// 	() => getUserDataByAxios(userUid),
+	// 	queryOptions,
+	// );
 
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
+	// if (isLoading) {
+	// 	return <div>Loading...</div>;
+	// }
 
-	if (error) {
-		return <div>error</div>;
-	}
+	// if (error) {
+	// 	return <div>error</div>;
+	// }
 
-	// 임시 함수
+	// console.log(data);
+	// console.log(data?.data.email);
+	// console.log(data?.data.trip_list[0].trip_name);
+	// // 임시 함수
 	const onDragEnd = (arg: any) => {
 		// console.log(arg);
 	};
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
-			<Droppable droppableId="myCalendar">
+			<Droppable droppableId="mySchedule">
 				{(provided) => (
 					<div ref={provided.innerRef} {...provided.droppableProps}>
 						<div className="container mx-auto">
 							<div className="flex flex-row justify-between">
 								<div className="w-1/2 mt-20">
-									<MyCalendar />
+									{/* <MyCalendar /> */}
+									<CustomCalendar />
 									{provided.placeholder}
 								</div>
 								<div className="w-1/2 mt-20 ml-10 flex flex-col justify-center">
@@ -84,14 +94,15 @@ const MySchedule = () => {
 											내 일정을 입력해보세요
 										</p>
 										<div className="scheduleList w-full my-4 text-center flex flex-col justify-center">
-											{data?.data &&
+											{/* {data?.data &&
 												data.data.trip_list.map((items: any, index: number) => (
 													<MyScheduleItem
 														key={items.trip_id}
 														index={index}
 														title={items.trip_name}
 													/>
-												))}
+												))} */}
+											{/* <MyScheduleItem title={title}, index={index} /> */}
 											{provided.placeholder}
 										</div>
 										<div className="btnContainer my-5 mx-auto flex flex-row justify-center gap-4">
