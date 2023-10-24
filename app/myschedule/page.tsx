@@ -19,21 +19,22 @@ import EnrollSchedule from '@/components/Calendar/EnrollSchedule';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { useSession } from 'next-auth/react';
 import CustomCalendar from '@/components/Calendar/CustomCalendar';
+import axios from 'axios';
 // import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 // import 'react-big-calendar/lib/addons/dragAndDrop/styles';
 
-const getUserData = async (userUid: string) => {
-	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-	if (!response.ok) {
-		throw new Error('Network response was not ok');
-	}
-	return response.json();
-};
+// const getUserData = async (userUid: string) => {
+// 	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
+// 		method: 'GET',
+// 		headers: {
+// 			'Content-Type': 'application/json',
+// 		},
+// 	});
+// 	if (!response.ok) {
+// 		throw new Error('Network response was not ok');
+// 	}
+// 	return response.json();
+// };
 
 // const getUserDataByAxios = async (userUid: string) => {
 // 	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
@@ -71,13 +72,13 @@ const MySchedule = () => {
 	// console.log(data);
 	// console.log(data?.data.email);
 	// console.log(data?.data.trip_list[0].trip_name);
-	// 임시 함수
+	// // 임시 함수
 	const onDragEnd = (arg: any) => {
 		// console.log(arg);
 	};
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
-			<Droppable droppableId="myCalendar">
+			<Droppable droppableId="mySchedule">
 				{(provided) => (
 					<div ref={provided.innerRef} {...provided.droppableProps}>
 						<div className="container mx-auto">
@@ -92,17 +93,18 @@ const MySchedule = () => {
 										<p className="schedule__title mt-4 text-center font-primary-font">
 											내 일정을 입력해보세요
 										</p>
-										{/* <div className="scheduleList w-full my-4 text-center flex flex-col justify-center">
-											{data?.data &&
+										<div className="scheduleList w-full my-4 text-center flex flex-col justify-center">
+											{/* {data?.data &&
 												data.data.trip_list.map((items: any, index: number) => (
 													<MyScheduleItem
 														key={items.trip_id}
 														index={index}
 														title={items.trip_name}
 													/>
-												))}
+												))} */}
+											{/* <MyScheduleItem title={title}, index={index} /> */}
 											{provided.placeholder}
-										</div> */}
+										</div>
 										<div className="btnContainer my-5 mx-auto flex flex-row justify-center gap-4">
 											<EnrollSchedule />
 											<EnrollSchedule />
