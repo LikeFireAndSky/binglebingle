@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { TaskType, ColumnType } from './WorkBench.type';
 
 type Props = {

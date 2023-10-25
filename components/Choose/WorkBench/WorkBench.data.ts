@@ -11,21 +11,26 @@ const initialData = {
 	columns: {
 		'column-1': {
 			id: 'column-1',
-			title: 'To do',
+			title: '추천 여행지',
 			taskIds: ['task-1', 'task-2', 'task-3', 'task-4'],
 		},
 		'column-2': {
 			id: 'column-2',
-			title: 'In progress',
+			title: '첫째날',
 			taskIds: ['task-5', 'task-6'],
 		},
 		'column-3': {
 			id: 'column-3',
-			title: 'Done',
+			title: '둘째날',
+			taskIds: [],
+		},
+		'column-4': {
+			id: 'column-4',
+			title: '셋째날',
 			taskIds: [],
 		},
 	},
-	columnOrder: ['column-1', 'column-2', 'column-3'],
+	columnOrder: ['column-1', 'column-2', 'column-3', 'column-4'],
 };
 
 export default initialData;
