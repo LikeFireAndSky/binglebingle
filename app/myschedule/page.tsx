@@ -20,61 +20,73 @@ import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { useSession } from 'next-auth/react';
 import CustomCalendar from '@/components/Calendar/CustomCalendar';
 import axios from 'axios';
-// import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
-// import 'react-big-calendar/lib/addons/dragAndDrop/styles';
+import { useRouter } from 'next/navigation';
 
-// const getUserData = async (userUid: string) => {
-// 	const response = await fetch(`/api/user/email?userUid=${userUid}`, {
-// 		method: 'GET',
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 		},
-// 	});
-// 	if (!response.ok) {
-// 		throw new Error('Network response was not ok');
-// 	}
-// 	return response.json();
-// };
+interface UserData {
+	email: string;
+	emailVerified: boolean | null;
+	image: string;
+	name: string;
+	role: string;
+	uid: string;
+	username: string;
+	trip_list: Trip[];
+}
+interface Trip {
+	trip_id: number;
+	trip_name: string;
+}
+const getUserData = async (userUid: string) => {
+	const res = await axios.get(`/api/user/get?userUid=${userUid}`);
+	const userData: UserData = res.data;
+	return userData;
+};
 
-// const getUserDataByAxios = async (userUid: string) => {
-// 	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
-// 	return data;
-// };
-
-// const getUserDataByAxios = async (userUid: string) => {
-// 	const data = await axios.get(`/api/user/email?userUid=${userUid}`);
-// 	return data;
-// };
-
-// const queryOptions = {
-// 	staleTime: 1000 * 60 * 5, // 5분
-// 	cacheTime: 1000 * 60 * 5, // 5분
-// };
+const queryOptions = {
+	staleTime: 1000 * 60 * 5, // 5분
+	cacheTime: 1000 * 60 * 5, // 5분
+};
 
 const MySchedule = () => {
-	// const { data: session } = useSession();
-	// const userUid = session?.user?.uid as string;
+	const router = useRouter();
+	const { data: session } = useSession();
 
-	// const { data, error, isLoading } = useQuery(
-	// 	[userUid],
-	// 	() => getUserDataByAxios(userUid),
-	// 	queryOptions,
-	// );
+	const userUid = session?.user?.uid as string;
+	const { data, error, isLoading } = useQuery(
+		[userUid],
+		() => getUserData(userUid),
+		queryOptions,
+	);
 
-	// if (isLoading) {
-	// 	return <div>Loading...</div>;
-	// }
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
 
-	// if (error) {
-	// 	return <div>error</div>;
-	// }
+	if (error) {
+		return <div>error</div>;
+	}
+	const onDragEnd = (result: any) => {
+		if (!result.destination) {
+			return;
+		}
 
-	// console.log(data);
-	// console.log(data?.data.email);
-	// console.log(data?.data.trip_list[0].trip_name);
-	// // 임시 함수
-	const onDragEnd = (arg: any) => {
-		// console.log(arg);
+		const { source, destination } = result;
+		if (
+			source.droppableId === destination.droppableId &&
+			source.index === destination.index
+		) {
+			return;
+		}
+
+		let updatedTripList: Trip[] = [];
+
+		if (data?.trip_list) {
+			updatedTripList = Array.from(data.trip_list);
+		} else {
+			updatedTripList = [];
+		}
+		const [movedItem] = updatedTripList.splice(source.index, 1);
+		updatedTripList.splice(destination.index, 0, movedItem);
 	};
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
@@ -84,7 +96,6 @@ const MySchedule = () => {
 						<div className="container mx-auto">
 							<div className="flex flex-row justify-between">
 								<div className="w-1/2 mt-20">
-									{/* <MyCalendar /> */}
 									<CustomCalendar />
 									{provided.placeholder}
 								</div>
@@ -94,20 +105,28 @@ const MySchedule = () => {
 											내 일정을 입력해보세요
 										</p>
 										<div className="scheduleList w-full my-4 text-center flex flex-col justify-center">
-											{/* {data?.data &&
-												data.data.trip_list.map((items: any, index: number) => (
+											{data &&
+												data.trip_list.map((trip: Trip, index: number) => (
 													<MyScheduleItem
-														key={items.trip_id}
+														key={trip.trip_id}
 														index={index}
-														title={items.trip_name}
+														title={trip.trip_name}
 													/>
-												))} */}
-											{/* <MyScheduleItem title={title}, index={index} /> */}
+												))}
 											{provided.placeholder}
 										</div>
 										<div className="btnContainer my-5 mx-auto flex flex-row justify-center gap-4">
-											<EnrollSchedule />
-											<EnrollSchedule />
+											{/* <EnrollSchedule />
+											<EnrollSchedule /> */}
+											<button
+												className="addSchedule w-full mx-auto mt-5 bg-black border-2 border-black rounded-lg text-white text-sm"
+												onClick={() => router.push('/page')}
+											>
+												일정 추가
+											</button>
+											<button className="deleteSchedule w-full mx-auto mt-5 border-2 bg-black border-black rounded-lg text-white text-sm">
+												일정 삭제
+											</button>
 										</div>
 									</div>
 								</div>

@@ -31,4 +31,4 @@ const MyScheduleItem = ({ title, index }: Title) => {
 	);
 };
 
-export default MyScheduleItem;
+export default React.memo(MyScheduleItem);

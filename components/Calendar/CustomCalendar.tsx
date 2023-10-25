@@ -75,7 +75,7 @@ const CustomCalendar = () => {
 									{...provided.droppableProps}
 									className="schedule__container text-sm"
 								>
-									일정 드롭 공간
+									{provided.placeholder}
 								</div>
 							)}
 						</Droppable>
