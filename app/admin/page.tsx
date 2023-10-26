@@ -49,27 +49,9 @@ const AdminPage = () => {
 
 	const checkPickOrRecommendIsEmpty = () => {
 		if (pick.length === 0 || recommend.length === 0) {
-			alert('데이터가 없습니다.');
 			return true;
 		}
 		return false;
-	};
-
-	const handleMakePost: MouseEventHandler<HTMLElement> = (e) => {
-		e.preventDefault();
-
-		if (checkPickOrRecommendIsEmpty()) {
-			return;
-		}
-
-		const post = {
-			name: pick.name,
-			id: pick.id,
-			recommend_location: [...recommend],
-		};
-
-		// eslint-disable-next-line no-console
-		console.log(post);
 	};
 
 	const handleInitPickAndRecommend: MouseEventHandler<HTMLElement> = (e) => {
@@ -78,7 +60,28 @@ const AdminPage = () => {
 		setRecommend([]);
 
 		// eslint-disable-next-line no-console
-		console.log('초기화');
+		console.log('초기화 완료');
+		alert('초기화 완료');
+	};
+
+	const handleMakePost: MouseEventHandler<HTMLElement> = (e) => {
+		e.preventDefault();
+
+		if (checkPickOrRecommendIsEmpty()) {
+			alert('데이터가 없습니다.');
+			return;
+		}
+
+		const postData = {
+			name: pick.name,
+			id: pick.id,
+			recommend_location: [...recommend],
+		};
+
+		// eslint-disable-next-line no-console
+		console.log(postData);
+		alert('제출 완료');
+		handleInitPickAndRecommend(e);
 	};
 
 	return (
