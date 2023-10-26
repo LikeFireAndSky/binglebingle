@@ -1,6 +1,11 @@
 'use client';
 
-import React, { MouseEventHandler } from 'react';
+import React, {
+	MouseEventHandler,
+	useCallback,
+	useEffect,
+	useRef,
+} from 'react';
 import {
 	Button,
 	Card,
@@ -8,32 +13,76 @@ import {
 	Chip,
 	Typography,
 } from '@material-tailwind/react';
+import axios from 'axios';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import data from '../choose/place/place.mockup';
+
+const fetchPostData = async (item: any) => {
+	const response = await axios.post('/api/trip/admin/post', item);
+	return response.data;
+};
+
+const fetchGetEnrolledData = async () => {
+	const response = await axios.get('/api/trip/admin/get');
+	return response.data;
+};
 
 const AdminPage = () => {
 	const [pick, setPick] = React.useState<any>([]);
 	const [recommend, setRecommend] = React.useState<any>([]);
+	const [picked, setPicked] = React.useState<any>([]);
+	const ref = useRef<any>(null);
 
-	const handleFirstPick = (item: any) => {
+	const { data: queryData } = useQuery(
+		['getEnrolledData'],
+		fetchGetEnrolledData,
+		{
+			staleTime: 1000 * 60 * 5,
+			refetchOnWindowFocus: false,
+			refetchOnMount: false,
+			refetchOnReconnect: false,
+		},
+	);
+
+	useEffect(() => {
+		if (queryData) {
+			setPicked(queryData.data);
+		}
+	}, [queryData]);
+
+	const mutation = useMutation({
+		mutationFn: fetchPostData,
+		onSuccess: () => {
+			alert('전송 성공');
+		},
+		onError: () => {
+			alert('전송 실패');
+		},
+	});
+
+	const handleFirstPick = useCallback((item: any) => {
 		setPick(item);
-	};
+	}, []);
 
 	const handleRecommend = (item: any) => {
 		setRecommend([...recommend, item]);
 	};
 
-	const checkDoubleRecommend = (item: any) => {
-		if (pick.id === item.id) {
-			alert('이미 선택된 여행지 입니다.');
-			return true;
-		}
+	const checkDoubleRecommend = useCallback(
+		(item: any) => {
+			if (pick.id === item.id) {
+				alert('이미 선택된 여행지 입니다.');
+				return true;
+			}
 
-		if (recommend.find((element: any) => element.id === item.id)) {
-			alert('이미 선택된 추천 여행지 입니다.');
-			return true;
-		}
-		return false;
-	};
+			if (recommend.find((element: any) => element.id === item.id)) {
+				alert('이미 선택된 추천 여행지 입니다.');
+				return true;
+			}
+			return false;
+		},
+		[pick, recommend],
+	);
 
 	const clickHandler = (item: any) => {
 		if (pick.length === 0) {
@@ -47,12 +96,12 @@ const AdminPage = () => {
 		handleRecommend(item);
 	};
 
-	const checkPickOrRecommendIsEmpty = () => {
+	const checkPickOrRecommendIsEmpty = useCallback(() => {
 		if (pick.length === 0 || recommend.length === 0) {
 			return true;
 		}
 		return false;
-	};
+	}, [pick, recommend]);
 
 	const handleInitPickAndRecommend: MouseEventHandler<HTMLElement> = (e) => {
 		e.preventDefault();
@@ -80,9 +129,44 @@ const AdminPage = () => {
 
 		// eslint-disable-next-line no-console
 		console.log(postData);
+		mutation.mutate(postData);
 		alert('제출 완료');
+		setPicked([...picked, postData]);
 		handleInitPickAndRecommend(e);
 	};
+
+	const isRecommendItemsInRecommend = useCallback(
+		(item: any) => {
+			if (recommend.find((element: any) => element.name === item)) {
+				return true;
+			}
+			return false;
+		},
+		[recommend],
+	);
+
+	const isPickItemInPick = useCallback(
+		(item: any) => {
+			if (pick.name === item) {
+				return true;
+			}
+			return false;
+		},
+		[pick],
+	);
+
+	const isAlreadyPicked = useCallback(
+		(item: any) => {
+			if (picked.length === 0) {
+				return false;
+			}
+			if (picked && picked.find((element: any) => element.name === item)) {
+				return true;
+			}
+			return false;
+		},
+		[picked],
+	);
 
 	return (
 		<>
@@ -100,6 +184,7 @@ const AdminPage = () => {
 								{recommend.map((item: any, index: number) => {
 									return (
 										<Chip
+											ref={ref}
 											key={index}
 											value={item.name}
 											className="bg-third-color w-fit mx-auto"
@@ -121,7 +206,19 @@ const AdminPage = () => {
 								key={item.id}
 								onClick={() => {
 									clickHandler(item);
+									isRecommendItemsInRecommend(item.name);
 								}}
+								className={`${
+									isPickItemInPick(item.name)
+										? 'bg-primary-color'
+										: isRecommendItemsInRecommend(item.name)
+										? 'bg-third-color'
+										: 'bg-gray-800'
+								} ${
+									isAlreadyPicked(item.name)
+										? 'border-4 border-primary-color'
+										: ''
+								}`}
 							>
 								<h1>{item.name}</h1>
 							</Button>
