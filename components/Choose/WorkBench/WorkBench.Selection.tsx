@@ -18,7 +18,7 @@ const WorkBenchSelection = ({ column, tasks }: WorkBenchProps) => {
 					>
 						{tasks.map((task, index) => (
 							<Draggable key={task.id} draggableId={`${task.id}`} index={index}>
-								{(draggableProvided, draggableSnapshot) => (
+								{(draggableProvided) => (
 									<WorkBenchObjects
 										draggableProvided={draggableProvided}
 										task={task}

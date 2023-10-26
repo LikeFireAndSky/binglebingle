@@ -1,7 +1,13 @@
 'use client';
 
 import React, { MouseEventHandler } from 'react';
-import { Button, Card, CardBody, CardFooter } from '@material-tailwind/react';
+import {
+	Button,
+	Card,
+	CardBody,
+	Chip,
+	Typography,
+} from '@material-tailwind/react';
 import data from '../choose/place/place.mockup';
 
 const AdminPage = () => {
@@ -61,6 +67,8 @@ const AdminPage = () => {
 			id: pick.id,
 			recommend: [...recommend],
 		};
+
+		// eslint-disable-next-line no-console
 		console.log(post);
 	};
 
@@ -68,6 +76,8 @@ const AdminPage = () => {
 		e.preventDefault();
 		setPick([]);
 		setRecommend([]);
+
+		// eslint-disable-next-line no-console
 		console.log('초기화');
 	};
 
@@ -76,22 +86,26 @@ const AdminPage = () => {
 			<section className="mx-auto absolute inset-0 top-20 w-4/5">
 				<Card className="w-full justify-center items-center bg-primary-color mb-5">
 					<CardBody className="flex flex-col gap-3">
-						<div className=" text-white font-['TaeBaek'] whitespace-nowrap">
-							선택된 여행지 : {pick.name}
+						<div className="text-second-color font-['TaeBaek'] whitespace-nowrap">
+							선택된 여행지 : <strong>{pick.name}</strong>
 						</div>
 						<div>
-							<h1>추천 여행지 리스트</h1>
-							<div>
+							<Typography color="white" className='font-["TaeBaek"] mb-3'>
+								추천 여행지 리스트
+							</Typography>
+							<div className="grid grid-cols-3 gap-2 py-5 px-5 rounded-md bg-second-color">
 								{recommend.map((item: any, index: number) => {
 									return (
-										<div key={index}>
-											<h1>{item.name}</h1>
-										</div>
+										<Chip
+											key={index}
+											value={item.name}
+											className="bg-third-color w-fit mx-auto"
+										/>
 									);
 								})}
 							</div>
 						</div>
-						<div className="button-group">
+						<div className="button-group flex flex-row gap-3 justify-start">
 							<Button onClick={handleMakePost}>제출하기</Button>
 							<Button onClick={handleInitPickAndRecommend}>초기화 하기</Button>
 						</div>
