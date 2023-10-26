@@ -65,7 +65,7 @@ const AdminPage = () => {
 		const post = {
 			name: pick.name,
 			id: pick.id,
-			recommend: [...recommend],
+			recommend_location: [...recommend],
 		};
 
 		// eslint-disable-next-line no-console
