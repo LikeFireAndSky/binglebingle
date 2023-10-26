@@ -2,24 +2,23 @@
 
 import React from 'react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
-import { Card, CardBody } from '@material-tailwind/react';
 import { WorkBenchProps } from './WorkBench.type';
 import WorkBenchObjects from './WorkBench.Objects';
 
-const WorkBenchColumn = ({ column, tasks }: WorkBenchProps) => {
+const WorkBenchSelection = ({ column, tasks }: WorkBenchProps) => {
 	return (
-		<Card className="h-full w-full">
+		<div className="w-full bg-blue-gray-700 h-fit min-h-[20rem]">
 			<h1>{column.title}</h1>
 			<Droppable droppableId={column.id}>
 				{(droppableProvided) => (
-					<CardBody
+					<div
 						ref={droppableProvided.innerRef}
 						{...droppableProvided.droppableProps}
-						className="bg-white p-3 flex flex-col gap-3"
+						className="flex flex-col gap-3 p-3"
 					>
 						{tasks.map((task, index) => (
 							<Draggable key={task.id} draggableId={`${task.id}`} index={index}>
-								{(draggableProvided) => (
+								{(draggableProvided, draggableSnapshot) => (
 									<WorkBenchObjects
 										draggableProvided={draggableProvided}
 										task={task}
@@ -28,11 +27,11 @@ const WorkBenchColumn = ({ column, tasks }: WorkBenchProps) => {
 							</Draggable>
 						))}
 						{droppableProvided.placeholder}
-					</CardBody>
+					</div>
 				)}
 			</Droppable>
-		</Card>
+		</div>
 	);
 };
 
-export default WorkBenchColumn;
+export default WorkBenchSelection;

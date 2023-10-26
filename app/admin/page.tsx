@@ -1,0 +1,119 @@
+'use client';
+
+import React, { MouseEventHandler } from 'react';
+import { Button, Card, CardBody, CardFooter } from '@material-tailwind/react';
+import data from '../choose/place/place.mockup';
+
+const AdminPage = () => {
+	const [pick, setPick] = React.useState<any>([]);
+	const [recommend, setRecommend] = React.useState<any>([]);
+
+	const handleFirstPick = (item: any) => {
+		setPick(item);
+	};
+
+	const handleRecommend = (item: any) => {
+		setRecommend([...recommend, item]);
+	};
+
+	const checkDoubleRecommend = (item: any) => {
+		if (pick.id === item.id) {
+			alert('이미 선택된 여행지 입니다.');
+			return true;
+		}
+
+		if (recommend.find((element: any) => element.id === item.id)) {
+			alert('이미 선택된 추천 여행지 입니다.');
+			return true;
+		}
+		return false;
+	};
+
+	const clickHandler = (item: any) => {
+		if (pick.length === 0) {
+			handleFirstPick(item);
+			return;
+		}
+		if (checkDoubleRecommend(item)) {
+			return;
+		}
+
+		handleRecommend(item);
+	};
+
+	const checkPickOrRecommendIsEmpty = () => {
+		if (pick.length === 0 || recommend.length === 0) {
+			alert('데이터가 없습니다.');
+			return true;
+		}
+		return false;
+	};
+
+	const handleMakePost: MouseEventHandler<HTMLElement> = (e) => {
+		e.preventDefault();
+
+		if (checkPickOrRecommendIsEmpty()) {
+			return;
+		}
+
+		const post = {
+			name: pick.name,
+			id: pick.id,
+			recommend: [...recommend],
+		};
+		console.log(post);
+	};
+
+	const handleInitPickAndRecommend: MouseEventHandler<HTMLElement> = (e) => {
+		e.preventDefault();
+		setPick([]);
+		setRecommend([]);
+		console.log('초기화');
+	};
+
+	return (
+		<>
+			<section className="mx-auto absolute inset-0 top-20 w-4/5">
+				<Card className="w-full justify-center items-center bg-primary-color mb-5">
+					<CardBody className="flex flex-col gap-3">
+						<div className=" text-white font-['TaeBaek'] whitespace-nowrap">
+							선택된 여행지 : {pick.name}
+						</div>
+						<div>
+							<h1>추천 여행지 리스트</h1>
+							<div>
+								{recommend.map((item: any, index: number) => {
+									return (
+										<div key={index}>
+											<h1>{item.name}</h1>
+										</div>
+									);
+								})}
+							</div>
+						</div>
+						<div className="button-group">
+							<Button onClick={handleMakePost}>제출하기</Button>
+							<Button onClick={handleInitPickAndRecommend}>초기화 하기</Button>
+						</div>
+					</CardBody>
+				</Card>
+				<div className="w-full grid grid-cols-3 gap-3 items-center">
+					{data.map((item) => {
+						return (
+							<Button
+								key={item.id}
+								onClick={() => {
+									clickHandler(item);
+								}}
+							>
+								<h1>{item.name}</h1>
+							</Button>
+						);
+					})}
+				</div>
+			</section>
+		</>
+	);
+};
+
+export default AdminPage;

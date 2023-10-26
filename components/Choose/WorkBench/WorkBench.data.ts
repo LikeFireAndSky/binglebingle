@@ -1,11 +1,11 @@
 const initialData = {
 	tasks: {
-		'task-1': { id: 1, content: 'Take out the garbage' },
-		'task-2': { id: 2, content: 'Watch my favorite show' },
-		'task-3': { id: 3, content: 'Charge my phone' },
-		'task-4': { id: 4, content: 'Cook dinner' },
-		'task-5': { id: 5, content: 'Sleep' },
-		'task-6': { id: 6, content: 'BreakFirst' },
+		'task-1': { id: 1, content: '화성행궁' },
+		'task-2': { id: 2, content: '수원천' },
+		'task-3': { id: 3, content: '플라잉 수원' },
+		'task-4': { id: 4, content: '수원 시립 미술관 전시' },
+		'task-5': { id: 5, content: '남문 통닭거리' },
+		'task-6': { id: 6, content: '행궁 카페거리' },
 	},
 
 	columns: {

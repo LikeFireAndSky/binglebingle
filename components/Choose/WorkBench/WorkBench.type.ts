@@ -1,7 +1,19 @@
+import { DraggableProvided } from '@hello-pangea/dnd';
+
 export type ColumnType = {
 	id: string;
 	title: string;
 	taskIds: string[];
+};
+
+export type WorkBenchProps = {
+	column: ColumnType;
+	tasks: TaskType[];
+};
+
+export type WorkBenchObjectsProps = {
+	draggableProvided: DraggableProvided;
+	task: TaskType;
 };
 
 // column-1, column-2, column-3 중 하나만 할당 가능
