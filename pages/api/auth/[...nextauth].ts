@@ -3,7 +3,6 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { AuthOptions } from 'next-auth';
 import { FirestoreAdapter } from '@auth/firebase-adapter';
-import { app } from '@/lib/firebase.config';
 import firebaseAdmin from '@/lib/firebase.admin';
 
 // Dynamic 라우팅을 사용한는 이유는 signIn, callback, signOut을 자동으로 처리하기 위해서이다.
@@ -49,6 +48,7 @@ export const authOption: AuthOptions = {
 		async session({ session, user }) {
 			session.user.username = session.user.name;
 			session.user.uid = user.id;
+			session.user.role = user.role;
 			return session;
 		},
 

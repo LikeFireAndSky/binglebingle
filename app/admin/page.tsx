@@ -1,7 +1,9 @@
 'use client';
 
 import React, {
+	Fragment,
 	MouseEventHandler,
+	Suspense,
 	useCallback,
 	useEffect,
 	useRef,
@@ -168,6 +170,16 @@ const AdminPage = () => {
 		[picked],
 	);
 
+	const handleDeleteRecommend = useCallback(
+		(item: any) => {
+			const newRecommend = recommend.filter(
+				(element: any) => element.name !== item,
+			);
+			setRecommend(newRecommend);
+		},
+		[recommend],
+	);
+
 	return (
 		<>
 			<section className="mx-auto absolute inset-0 top-20 w-4/5">
@@ -183,12 +195,17 @@ const AdminPage = () => {
 							<div className="grid grid-cols-3 gap-2 py-5 px-5 rounded-md bg-second-color">
 								{recommend.map((item: any, index: number) => {
 									return (
-										<Chip
-											ref={ref}
+										<button
+											type="button"
 											key={index}
-											value={item.name}
-											className="bg-third-color w-fit mx-auto"
-										/>
+											onClick={() => handleDeleteRecommend(item.name)}
+										>
+											<Chip
+												value={item.name}
+												className="bg-third-color w-fit mx-auto"
+											/>
+											{''}
+										</button>
 									);
 								})}
 							</div>
@@ -199,32 +216,34 @@ const AdminPage = () => {
 						</div>
 					</CardBody>
 				</Card>
-				<div className="w-full grid grid-cols-3 gap-3 items-center">
-					{data.map((item) => {
-						return (
-							<Button
-								key={item.id}
-								onClick={() => {
-									clickHandler(item);
-									isRecommendItemsInRecommend(item.name);
-								}}
-								className={`${
-									isPickItemInPick(item.name)
-										? 'bg-primary-color'
-										: isRecommendItemsInRecommend(item.name)
-										? 'bg-third-color'
-										: 'bg-gray-800'
-								} ${
-									isAlreadyPicked(item.name)
-										? 'border-4 border-primary-color'
-										: ''
-								}`}
-							>
-								<h1>{item.name}</h1>
-							</Button>
-						);
-					})}
-				</div>
+				<Suspense fallback={<div>Loading...</div>}>
+					<div className="w-full grid grid-cols-3 gap-3 items-center">
+						{data.map((item) => {
+							return (
+								<Button
+									key={item.id}
+									onClick={() => {
+										clickHandler(item);
+										isRecommendItemsInRecommend(item.name);
+									}}
+									className={`${
+										isPickItemInPick(item.name)
+											? 'bg-primary-color'
+											: isRecommendItemsInRecommend(item.name)
+											? 'bg-third-color'
+											: 'bg-gray-800'
+									} ${
+										isAlreadyPicked(item.name)
+											? 'border-4 border-primary-color'
+											: ''
+									}`}
+								>
+									<h1>{item.name}</h1>
+								</Button>
+							);
+						})}
+					</div>
+				</Suspense>
 			</section>
 		</>
 	);

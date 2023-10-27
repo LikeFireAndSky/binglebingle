@@ -8,12 +8,16 @@ import {
 	Typography,
 	IconButton,
 } from '@material-tailwind/react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import LoginButton from './Header.loginButton';
 
-function NavList() {
-	const router = useRouter();
+type NavListProps = {
+	role: string | undefined;
+};
+
+const NavList = React.memo(({ role }: NavListProps) => {
 	// URL명이 /home이면, navbar를 숨김
 	return (
 		<div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -69,13 +73,30 @@ function NavList() {
 					MYPAGE
 				</Link>
 			</Typography>
+			{role && role === 'admin' ? (
+				<Typography
+					as="li"
+					variant="small"
+					color="blue-gray"
+					className="p-1 font-medium"
+				>
+					<Link
+						href="/admin"
+						className="flex items-center hover:text-blue-500 transition-colors"
+					>
+						ADMIN
+					</Link>
+				</Typography>
+			) : null}
 			<LoginButton />
 		</div>
 	);
-}
+});
 
 export default function NavbarSimple() {
 	const [openNav, setOpenNav] = React.useState(false);
+	const { data: session } = useSession();
+	const role = session?.user.role;
 
 	const handleWindowResize = () =>
 		window.innerWidth >= 960 && setOpenNav(false);
@@ -87,11 +108,6 @@ export default function NavbarSimple() {
 			window.removeEventListener('resize', handleWindowResize);
 		};
 	}, []);
-
-	const currentUrl = usePathname();
-	if (currentUrl === '/home') {
-		return null;
-	}
 
 	return (
 		<Navbar className="w-full px-6 py-3 fixed mx-auto inset-x-0 z-[5]">
@@ -105,7 +121,7 @@ export default function NavbarSimple() {
 					</Typography>
 				</Link>
 				<div className="hidden lg:block">
-					<NavList />
+					<NavList role={role} />
 				</div>
 				<IconButton
 					variant="text"
@@ -121,7 +137,7 @@ export default function NavbarSimple() {
 				</IconButton>
 			</div>
 			<Collapse open={openNav}>
-				<NavList />
+				<NavList role={role} />
 			</Collapse>
 		</Navbar>
 	);
