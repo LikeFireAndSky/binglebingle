@@ -81,10 +81,12 @@ const WorkBench = () => {
 	);
 
 	const ondragstart = () => {
+		// eslint-disable-next-line
 		console.log('drag start');
 	};
 
 	const ondragbefore = () => {
+		// eslint-disable-next-line
 		console.log('drag before');
 	};
 
