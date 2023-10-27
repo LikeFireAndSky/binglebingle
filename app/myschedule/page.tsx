@@ -1,7 +1,7 @@
 'use client';
 
 // react
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 // react-big-calendar
@@ -9,33 +9,20 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 // calendar 관련 components
 // import MyCalendar from '@/components/Calendar/Calendar';
-import MyScheduleItem from '@/components/Calendar/MyScheduleItem';
 
 // custom components
 import EnrollSchedule from '@/components/Calendar/EnrollSchedule';
 
 /* 드래그 기능 추가 시 필요한 import 구문 */
 // import { DragDropContext } from 'react-beautiful-dnd';
-import { DragDropContext, Droppable } from '@hello-pangea/dnd';
+import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import { useSession } from 'next-auth/react';
 import CustomCalendar from '@/components/Calendar/CustomCalendar';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import MyScheduleItem from '@/components/Calendar/MyScheduleItem';
+import { Trip, UserData } from '@/interfaces/myschedule';
 
-interface UserData {
-	email: string;
-	emailVerified: boolean | null;
-	image: string;
-	name: string;
-	role: string;
-	uid: string;
-	username: string;
-	trip_list: Trip[];
-}
-interface Trip {
-	trip_id: number;
-	trip_name: string;
-}
 const getUserData = async (userUid: string) => {
 	const res = await axios.get(`/api/user/get?userUid=${userUid}`);
 	const userData: UserData = res.data;
@@ -48,6 +35,7 @@ const queryOptions = {
 };
 
 const MySchedule = () => {
+	const [tripList, setTripList] = useState<Trip[]>([]);
 	const router = useRouter();
 	const { data: session } = useSession();
 
@@ -58,6 +46,12 @@ const MySchedule = () => {
 		queryOptions,
 	);
 
+	useEffect(() => {
+		if (data && data.trip_list) {
+			setTripList(data.trip_list);
+		}
+	}, [data]);
+
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}
@@ -65,29 +59,38 @@ const MySchedule = () => {
 	if (error) {
 		return <div>error</div>;
 	}
-	const onDragEnd = (result: any) => {
-		if (!result.destination) {
+	const onDragEnd = (result: DropResult) => {
+		const { destination, source, draggableId } = result;
+		if (!destination) {
 			return;
 		}
-
-		const { source, destination } = result;
 		if (
-			source.droppableId === destination.droppableId &&
-			source.index === destination.index
+			destination.droppableId === source.droppableId &&
+			destination.index === source.index
 		) {
 			return;
 		}
 
-		let updatedTripList: Trip[] = [];
+		const newTripList = [...tripList];
+		const movedItem = newTripList.find((item) => item.trip_id === draggableId);
 
-		if (data?.trip_list) {
-			updatedTripList = Array.from(data.trip_list);
-		} else {
-			updatedTripList = [];
+		if (movedItem) {
+			movedItem.trip_schedule = parseInt(
+				destination.droppableId.split('-')[1],
+				10,
+			);
 		}
-		const [movedItem] = updatedTripList.splice(source.index, 1);
-		updatedTripList.splice(destination.index, 0, movedItem);
+		setTripList(newTripList);
+		console.log(newTripList);
+		console.log('성공');
 	};
+	// 일단 다 삭제 하도록..
+	const removeItem = () => {
+		setTripList([]);
+	};
+	// useEffect(()=>{
+
+	// },[tripList])
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
 			<Droppable droppableId="mySchedule">
@@ -96,7 +99,7 @@ const MySchedule = () => {
 						<div className="container mx-auto">
 							<div className="flex flex-row justify-between">
 								<div className="w-1/2 mt-20">
-									<CustomCalendar />
+									<CustomCalendar newTripList={tripList} />
 									{provided.placeholder}
 								</div>
 								<div className="w-1/2 mt-20 ml-10 flex flex-col justify-center">
@@ -105,14 +108,14 @@ const MySchedule = () => {
 											내 일정을 입력해보세요
 										</p>
 										<div className="scheduleList w-full my-4 text-center flex flex-col justify-center">
-											{data &&
-												data.trip_list.map((trip: Trip, index: number) => (
-													<MyScheduleItem
-														key={trip.trip_id}
-														index={index}
-														title={trip.trip_name}
-													/>
-												))}
+											{tripList.map((trip: Trip, index: number) => (
+												<MyScheduleItem
+													key={trip.trip_id}
+													index={index}
+													title={trip.trip_name}
+													trip={trip}
+												/>
+											))}
 											{provided.placeholder}
 										</div>
 										<div className="btnContainer my-5 mx-auto flex flex-row justify-center gap-4">
@@ -124,7 +127,10 @@ const MySchedule = () => {
 											>
 												일정 추가
 											</button>
-											<button className="deleteSchedule w-full mx-auto mt-5 border-2 bg-black border-black rounded-lg text-white text-sm">
+											<button
+												className="deleteSchedule w-full mx-auto mt-5 border-2 bg-black border-black rounded-lg text-white text-sm"
+												onClick={removeItem}
+											>
 												일정 삭제
 											</button>
 										</div>
