@@ -10,9 +10,6 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 // calendar 관련 components
 // import MyCalendar from '@/components/Calendar/Calendar';
 
-// custom components
-import EnrollSchedule from '@/components/Calendar/EnrollSchedule';
-
 /* 드래그 기능 추가 시 필요한 import 구문 */
 // import { DragDropContext } from 'react-beautiful-dnd';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
@@ -119,8 +116,6 @@ const MySchedule = () => {
 											{provided.placeholder}
 										</div>
 										<div className="btnContainer my-5 mx-auto flex flex-row justify-center gap-4">
-											{/* <EnrollSchedule />
-											<EnrollSchedule /> */}
 											<button
 												className="addSchedule w-full mx-auto mt-5 bg-black border-2 border-black rounded-lg text-white text-sm"
 												onClick={() => router.push('/page')}

@@ -19,7 +19,6 @@ const CustomCalendar = ({ newTripList }: { newTripList: Trip[] }) => {
 
 	const days = ['일', '월', '화', '수', '목', '금', '토'];
 
-	const [scheduleItems, setScheduleItems] = useState<Trip[]>([]);
 	const goNextMonth = () => {
 		const { year: nextYear, month: nextMonth } = goNextDate(year, month);
 		setYear(nextYear);
@@ -71,7 +70,6 @@ const CustomCalendar = ({ newTripList }: { newTripList: Trip[] }) => {
 				{daysNumber.map((dayNumber: number, dayIndex: number) => (
 					<div key={dayNumber} className="day__cell border-t">
 						<div className="day__count text-lg">{dayNumber}</div>
-						{/* <div className="schedule__container text-sm">일정 드롭 공간</div> */}
 						<Droppable droppableId={`droppable-${dayNumber}`}>
 							{(provided) => (
 								<div
