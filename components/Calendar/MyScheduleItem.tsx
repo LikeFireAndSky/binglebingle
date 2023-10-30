@@ -1,4 +1,4 @@
-import { Button } from '@material-tailwind/react';
+import { Button, Chip } from '@material-tailwind/react';
 import React from 'react';
 // import { Draggable } from 'react-beautiful-dnd';
 import { Draggable } from '@hello-pangea/dnd';
@@ -11,9 +11,6 @@ interface IMyScheduleItem {
 }
 
 const MyScheduleItem = ({ title, index, trip }: IMyScheduleItem) => {
-	// if (index === undefined) {
-	// 	return null;
-	// }
 	return (
 		<Draggable draggableId={trip.trip_id} index={index}>
 			{(provided) => (
@@ -22,12 +19,16 @@ const MyScheduleItem = ({ title, index, trip }: IMyScheduleItem) => {
 					{...provided.draggableProps}
 					{...provided.dragHandleProps}
 				>
-					<Button
-						variant="gradient"
-						className="w-100 h-100 mx-auto mt-5 hover:bg-primary-color"
-					>
-						{title}
-					</Button>
+					<Chip
+						className={`w-1/2 mx-auto mt-5 ${
+							trip.trip_schedule === 1
+								? 'bg-yellow-500'
+								: trip.trip_schedule === 2
+								? 'bg-blue-500'
+								: 'bg-primary-color'
+						}`}
+						value={title}
+					/>
 				</div>
 			)}
 		</Draggable>
