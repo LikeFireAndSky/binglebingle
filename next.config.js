@@ -6,6 +6,7 @@ const nextConfig = {
 			'dvfx9cgvtgnyd.cloudfront.net',
 			'avatars.githubusercontent.com',
 			'lh3.googleusercontent.com',
+			'www.suwon.go.kr',
 		],
 	},
 	redirects: async () => {

@@ -2,13 +2,50 @@
 
 import React, { useCallback } from 'react';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
-import initialData from './WorkBench.data';
 import { TypeKeyofColumn, TypeKeyofTask } from './WorkBench.type';
 import WorkBenchColumn from './WorkBench.Column';
 import WorkBenchSelection from './WorkBench.Selection';
 
-const WorkBench = () => {
-	const [data, setData] = React.useState(initialData);
+type Props = {
+	initialData: Task[];
+};
+
+interface Task {
+	id: number;
+	content: string;
+	name?: string;
+}
+
+const WorkBench = ({ initialData }: Props) => {
+	//	const [data, setData] = React.useState(initialDatas);
+
+	const idMap = initialData.map((item: Task, index: number) => {
+		return {
+			id: index,
+			content: item.name as string,
+		};
+	});
+	const [data, setData] = React.useState({
+		tasks: idMap,
+		columns: {
+			'column-1': {
+				id: 'column-1',
+				title: '선택한 장소',
+				taskIds: idMap.map((item) => item.id),
+			},
+			'column-2': {
+				id: 'column-2',
+				title: '추천 장소',
+				taskIds: [],
+			},
+			'column-3': {
+				id: 'column-3',
+				title: '추천 장소',
+				taskIds: [],
+			},
+		},
+		columnOrder: ['column-1', 'column-2', 'column-3'],
+	});
 
 	const onDragEnd = useCallback(
 		(result: DropResult) => {
@@ -90,9 +127,9 @@ const WorkBench = () => {
 		console.log('drag before');
 	};
 
-	const firstDataColumn = data.columns[data.columnOrder[0] as TypeKeyofColumn];
-	const firstDataColumnTasks = firstDataColumn.taskIds.map((taskId) => {
-		const task = data.tasks[taskId as TypeKeyofTask];
+	const firstDataColumn = data.columns['column-1'];
+	const firstDataColumnTasks = firstDataColumn.taskIds.map((taskId: number) => {
+		const task = data.tasks[taskId];
 		return task;
 	});
 
@@ -106,8 +143,8 @@ const WorkBench = () => {
 				<div className="">
 					{data.columnOrder.slice(1).map((columnId) => {
 						const column = data.columns[columnId as TypeKeyofColumn];
-						const tasks = column.taskIds.map((taskId) => {
-							const task = data.tasks[taskId as TypeKeyofTask];
+						const tasks = column.taskIds.map((taskId: number) => {
+							const task = data.tasks[taskId];
 							return task;
 						});
 						return (

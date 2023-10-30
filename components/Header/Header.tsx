@@ -18,7 +18,6 @@ type NavListProps = {
 };
 
 const NavList = React.memo(({ role }: NavListProps) => {
-	console.log(role);
 	// URL명이 /home이면, navbar를 숨김
 	return (
 		<div className="my-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">

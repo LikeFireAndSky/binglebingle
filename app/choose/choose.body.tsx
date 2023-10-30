@@ -1,45 +1,81 @@
 'use client';
 
 import InputWithButton from '@/components/Choose/Input';
-import { useSpring, animated, useSpringRef } from '@react-spring/web';
-import SearchResult from '@/components/Choose/SearchResult';
+import React, { useEffect } from 'react';
+import { Card, CardBody, Chip } from '@material-tailwind/react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import Link from 'next/link';
 
-import React from 'react';
-import { Card, CardBody } from '@material-tailwind/react';
+const fetchAllDatas = async () => {
+	const data = await axios.get('/api/trip/get');
+	return data.data;
+};
 
-const ChooseBody = () => {
+type Props = {
+	initialData: any;
+};
+
+const ChooseBody = ({ initialData }: Props) => {
 	const [searchParam, setSearchParam] = React.useState<any>();
-	const [watchInput, setWatchInput] = React.useState<boolean>(false);
+	const [keyword, setKeyword] = React.useState<string>('');
+	const [trips, setTrips] = React.useState<any>();
 
-	const api = useSpringRef();
-	const props = useSpring({
-		ref: api,
-		from: { opacity: 0 },
-		delay: 1500,
+	const { data, isLoading, isError } = useQuery(['trips'], fetchAllDatas, {
+		staleTime: 1000 * 60 * 3,
+		cacheTime: 1000 * 60 * 5,
+		initialData,
+		enabled: false,
 	});
 
-	if (watchInput) {
-		api.start({
-			to: { opacity: 1 },
-		});
-	}
+	useEffect(() => {
+		if (data) {
+			setTrips(data.data);
+		}
+	}, [data]);
+
+	if (isLoading) return <div>Loading...</div>;
+
+	const filteredTripName = (tripName: string) => {
+		if (keyword === '') {
+			return false;
+		}
+		if (tripName.includes(keyword)) {
+			return true;
+		}
+		return false;
+	};
+
 	return (
 		<div id="body" className="w-full h-full">
 			<Card className="border-2 border-primary-color">
 				<CardBody className="">
 					<InputWithButton
 						setSearchParam={setSearchParam}
-						setWatchInput={setWatchInput}
+						setKeyword={setKeyword}
 					/>
-					<p>입력된 검색어 : {searchParam}</p>
-					<div className=" h-64">
-						{watchInput && (
-							<animated.div style={props} className="h-full">
-								<SearchResult watchInput={watchInput} />
-							</animated.div>
-						)}
-					</div>
+					<p>입력된 검색어 : {keyword}</p>
 				</CardBody>
+				<div className="w-full justify-center p-3 gap-2 text-black flex flex-row flex-wrap">
+					{trips &&
+						trips.map((trip: any) => (
+							<Link
+								href={`/choose/place?firstVisit=${trip.id}&tripName=${trip.name}`}
+								passHref={true}
+								key={trip.id}
+								className="w-fit"
+							>
+								<Chip
+									value={trip.name}
+									className={`${
+										filteredTripName(trip.name)
+											? 'bg-primary-color'
+											: 'bg-gray-300'
+									} text-black`}
+								/>
+							</Link>
+						))}
+				</div>
 			</Card>
 		</div>
 	);

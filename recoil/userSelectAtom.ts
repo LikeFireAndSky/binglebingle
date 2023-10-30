@@ -1,12 +1,17 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
-const userSelectAtom = atom({
+const tasksAtom = atom({
 	key: 'userSelectAtom',
-	default: {
-		name: '',
-		email: '',
-		location: '',
+	default: [],
+});
+
+const tasksSelector = selector({
+	key: 'tasksSelector',
+	get: ({ get }) => {
+		const tasks = get(tasksAtom);
+
+		return tasks;
 	},
 });
 
-export default userSelectAtom;
+export default tasksAtom;

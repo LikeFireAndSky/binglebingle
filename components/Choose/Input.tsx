@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Input, Button } from '@material-tailwind/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import _ from 'lodash';
 
 type Inputs = {
 	searchParma: string;
@@ -10,35 +11,37 @@ type Inputs = {
 
 type Props = {
 	setSearchParam: React.Dispatch<React.SetStateAction<any>>;
-	setWatchInput: React.Dispatch<React.SetStateAction<boolean>>;
+	setKeyword: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const InputWithButton = ({ setSearchParam, setWatchInput }: Props) => {
+const InputWithButton = React.memo(({ setSearchParam, setKeyword }: Props) => {
 	const {
 		register,
-		handleSubmit,
 		watch,
 		formState: { errors },
 	} = useForm<Inputs>();
 
-	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		setSearchParam(data.searchParma);
+	const cleanString = (str: string) => {
+		const cleanStr = _.replace(str, /[^a-zA-Z0-9\uAC00-\uD7A3]/g, '');
+		return cleanStr;
 	};
 
+	const watchAllFields = watch('searchParma');
 	useEffect(() => {
-		const subscription = watch((value) => {
-			if (value.searchParma) {
-				setWatchInput(true);
-			}
-		});
-		return () => subscription.unsubscribe();
-	}, [watch, setWatchInput]);
+		// debounce 함수가 반환하는 함수를 debounceCallback에 저장합니다.
+		const debounceCallback = _.debounce(() => {
+			setKeyword(cleanString(watchAllFields));
+		}, 1000);
+
+		// debounceCallback을 실행합니다.
+		debounceCallback();
+
+		// 컴포넌트가 unmount될 때 debounce를 취소합니다.
+		return () => debounceCallback.cancel();
+	}, [setKeyword, watchAllFields]);
 
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className="relative flex w-full max-w-[37rem] justify-center"
-		>
+		<div className="relative flex w-full justify-center">
 			<Input
 				type="search"
 				label="검색어를 입력하세요"
@@ -49,15 +52,8 @@ const InputWithButton = ({ setSearchParam, setWatchInput }: Props) => {
 				}}
 				{...register('searchParma', { required: true })}
 			/>
-			<Button
-				size="sm"
-				type="submit"
-				className="!absolute right-1 top-1 rounded hidden md:block"
-			>
-				검색하기
-			</Button>
-		</form>
+		</div>
 	);
-};
+});
 
 export default InputWithButton;

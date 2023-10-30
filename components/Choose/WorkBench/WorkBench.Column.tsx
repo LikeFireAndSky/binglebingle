@@ -6,7 +6,23 @@ import { Card, CardBody } from '@material-tailwind/react';
 import { WorkBenchProps } from './WorkBench.type';
 import WorkBenchObjects from './WorkBench.Objects';
 
-const WorkBenchColumn = ({ column, tasks }: WorkBenchProps) => {
+interface Task {
+	id: number;
+	content: string;
+	name?: string;
+}
+interface Column {
+	id: string;
+	title: string;
+	taskIds: number[];
+}
+
+type InitialDataType = {
+	tasks: Task[];
+	column: Column;
+};
+
+const WorkBenchColumn = ({ column, tasks }: InitialDataType) => {
 	return (
 		<Card className="h-full w-full">
 			<h1>{column.title}</h1>

@@ -9,6 +9,13 @@ export type ColumnType = {
 export type WorkBenchProps = {
 	column: ColumnType;
 	tasks: TaskType[];
+	columnOrder?: string[];
+};
+
+export type WorkBenchPropss = {
+	column: any;
+	tasks: TaskType[];
+	columnOrder?: string[];
 };
 
 export type WorkBenchObjectsProps = {

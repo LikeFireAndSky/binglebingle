@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import getCurrentUrl from '@/utils/getCurrentUrl';
 import ChooseBody from './choose.body';
 import data from './choose.mockData';
 
-const Page = () => {
+const fetchAllDatas = async () => {
+	const url = getCurrentUrl();
+	const res = await fetch(`${url}/api/trip/get`);
+	const data = await res.json();
+	return data;
+};
+
+const Page = async () => {
+	const initialData = await fetchAllDatas();
 	return (
 		<section className="mx-auto absolute inset-0 top-20 w-4/5 flex flex-col  items-center">
 			<div className="w-full relative h-full">
@@ -14,7 +23,13 @@ const Page = () => {
 					</h1>
 				</div>
 				<div id="body" className="w-full">
-					<ChooseBody />
+					<Suspense
+						fallback={
+							<div className="w-full h-full bg-blue-gray-900">Loading...</div>
+						}
+					>
+						<ChooseBody initialData={initialData} />
+					</Suspense>
 				</div>
 				<div id="body_under" className="flex flex-col w-full mt-3 ">
 					<h2 className="my-5 text-orange-600 font-['TaeBaek'] text-lg md:text-3xl text-center">
@@ -31,12 +46,14 @@ const Page = () => {
 										href={`/choose/place?firstVisit=${item.name}`}
 										passHref={true}
 									>
-										<div className="w-full flex flex-col items-center gap-1  bg-primary-color rounded-lg">
+										<div className="w-full flex flex-col items-center gap-1  bg-primary-color rounded-lg duration-200 ease-linear shadow-2xl hover:scale-105">
 											<Image
 												priority
 												src={item.image}
 												alt="5"
-												className="object-cover h-56 rounded-t-lg"
+												width={400}
+												height={300}
+												className="object-cover w-96 h-56 rounded-t-lg"
 											/>
 											<p>{item.name}</p>
 										</div>
