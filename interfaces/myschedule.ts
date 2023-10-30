@@ -12,8 +12,9 @@ export interface Trip {
 	trip_id: string;
 	trip_name: string;
 	trip_schedule: number;
+	day: number;
 }
-interface IMyScheduleItem {
+export interface IMyScheduleItem {
 	title: string;
 	index: number;
 }

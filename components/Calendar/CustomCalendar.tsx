@@ -5,7 +5,7 @@ import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { Trip } from '@/interfaces/myschedule';
 import MyScheduleItem from './MyScheduleItem';
 
-const CustomCalendar = ({ newTripList }: { newTripList: Trip[] }) => {
+const CustomCalendar = ({ updatedList }: { updatedList: Trip[] }) => {
 	const newDate = new Date();
 	// const year = newDate.getFullYear();
 	const [year, setYear] = useState(newDate.getFullYear());
@@ -70,20 +70,19 @@ const CustomCalendar = ({ newTripList }: { newTripList: Trip[] }) => {
 				{daysNumber.map((dayNumber: number, dayIndex: number) => (
 					<div key={dayNumber} className="day__cell border-t">
 						<div className="day__count text-lg">{dayNumber}</div>
-						<Droppable droppableId={`droppable-${dayNumber}`}>
+						<Droppable droppableId={`droppable-${dayNumber + 1}`}>
 							{(provided) => (
 								<div
 									ref={provided.innerRef}
 									{...provided.droppableProps}
-									className="schedule__container text-sm"
-									style={{ width: '100%', height: '100%' }}
+									className="schedule__container text-sm w-full"
 								>
-									{newTripList
-										.filter((item) => item.trip_schedule === dayNumber)
-										.map((trip: Trip) => (
+									{updatedList
+										.filter((trip) => trip.day === dayNumber)
+										.map((trip, index) => (
 											<MyScheduleItem
 												key={trip.trip_id}
-												index={newTripList.indexOf(trip)}
+												index={index}
 												title={trip.trip_name}
 												trip={trip}
 											/>
