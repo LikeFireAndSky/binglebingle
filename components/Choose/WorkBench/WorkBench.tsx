@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useCallback } from 'react';
+import { Button } from '@material-tailwind/react';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import { TypeKeyofColumn, TypeKeyofTask } from './WorkBench.type';
 import WorkBenchColumn from './WorkBench.Column';
 import WorkBenchSelection from './WorkBench.Selection';
@@ -16,7 +19,27 @@ interface Task {
 	name?: string;
 }
 
-const WorkBench = ({ initialData }: Props) => {
+const fetchAddedData = async (query: number) => {
+	const res = await axios.get(`/api/trip/place/${query}`);
+	const data = await res.data;
+	return data;
+};
+
+const WorkBench = React.memo(({ initialData }: Props) => {
+	const [searchQuery, setSearchQuery] = React.useState<number>();
+	const { data: newData } = useQuery(
+		['query'],
+		() => fetchAddedData(searchQuery as number),
+		{
+			cacheTime: 1000 * 60 * 5,
+			enabled: !!searchQuery,
+		},
+	);
+
+	const addNewData = useCallback(() => {}, []);
+
+	console.log(newData);
+
 	//	const [data, setData] = React.useState(initialDatas);
 
 	const idMap = initialData.map((item: Task, index: number) => {
@@ -33,9 +56,9 @@ const WorkBench = ({ initialData }: Props) => {
 				title: '선택한 장소',
 				taskIds: idMap.map((item) => item.id),
 			},
-			'column-2': {
-				id: 'column-2',
-				title: '추천 장소',
+			'Search-column': {
+				id: 'Search-column',
+				title: '첫째날',
 				taskIds: [],
 			},
 			'column-3': {
@@ -44,7 +67,7 @@ const WorkBench = ({ initialData }: Props) => {
 				taskIds: [],
 			},
 		},
-		columnOrder: ['column-1', 'column-2', 'column-3'],
+		columnOrder: ['column-1', 'Search-column', 'column-3'],
 	});
 
 	const onDragEnd = useCallback(
@@ -63,7 +86,6 @@ const WorkBench = ({ initialData }: Props) => {
 
 			// If the user drops within the same column but in a different position
 			const sourceColumn = data.columns[source.droppableId as TypeKeyofColumn];
-
 			const destinationColumn =
 				data.columns[destination.droppableId as TypeKeyofColumn];
 
@@ -89,15 +111,24 @@ const WorkBench = ({ initialData }: Props) => {
 			}
 
 			// If the user moves from one column to another
-
 			const sourceTaskIds = Array.from(sourceColumn.taskIds);
+			const destinationTaskIds = Array.from(destinationColumn.taskIds);
+
+			// If the user drops in the Search column
+			if (destination.droppableId === 'Search-column') {
+				const newQuery = data.tasks[sourceTaskIds[source.index]].content;
+				const newQueryId = initialData.find((item) => item.name === newQuery)
+					?.id as number;
+				setSearchQuery(newQueryId);
+				return null;
+			}
+
 			const [removed] = sourceTaskIds.splice(source.index, 1);
 			const newSourceColumn = {
 				...sourceColumn,
 				taskIds: sourceTaskIds,
 			};
 
-			const destinationTaskIds = Array.from(destinationColumn.taskIds);
 			destinationTaskIds.splice(destination.index, 0, removed);
 			const newDestinationColumn = {
 				...destinationColumn,
@@ -114,7 +145,7 @@ const WorkBench = ({ initialData }: Props) => {
 			};
 			setData(newState);
 		},
-		[data],
+		[data, initialData],
 	);
 
 	const ondragstart = () => {
@@ -133,6 +164,14 @@ const WorkBench = ({ initialData }: Props) => {
 		return task;
 	});
 
+	const secondDataColumn = data.columns['Search-column'];
+	const secondDataColumnTasks = secondDataColumn.taskIds.map(
+		(taskId: number) => {
+			const task = data.tasks[taskId];
+			return task;
+		},
+	);
+
 	return (
 		<DragDropContext
 			onDragEnd={onDragEnd}
@@ -141,7 +180,7 @@ const WorkBench = ({ initialData }: Props) => {
 		>
 			<div className="w-full">
 				<div className="">
-					{data.columnOrder.slice(1).map((columnId) => {
+					{data.columnOrder.slice(2).map((columnId) => {
 						const column = data.columns[columnId as TypeKeyofColumn];
 						const tasks = column.taskIds.map((taskId: number) => {
 							const task = data.tasks[taskId];
@@ -158,9 +197,24 @@ const WorkBench = ({ initialData }: Props) => {
 						tasks={firstDataColumnTasks}
 					/>
 				</div>
+				<div className="bg-deep-orange-700 absolute mt-20 mx-auto flex flex-col items-center w-full">
+					<h1>더보기 리그</h1>
+					<WorkBenchSelection
+						column={secondDataColumn}
+						tasks={secondDataColumnTasks}
+					/>
+					<Button
+						onClick={() => {
+							console.log(data);
+						}}
+						type="button"
+					>
+						버튼
+					</Button>
+				</div>
 			</div>
 		</DragDropContext>
 	);
-};
+});
 
 export default WorkBench;

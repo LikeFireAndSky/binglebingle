@@ -43,7 +43,7 @@ const Page = async () => {
 							return (
 								<li key={index} className="flex justify-center w-full">
 									<Link
-										href={`/choose/place?firstVisit=${item.name}`}
+										href={`/choose/place?firstVisit=${item.id}&tripName=${item.name}`}
 										passHref={true}
 									>
 										<div className="w-full flex flex-col items-center gap-1  bg-primary-color rounded-lg duration-200 ease-linear shadow-2xl hover:scale-105">

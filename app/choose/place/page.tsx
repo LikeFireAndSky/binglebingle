@@ -7,25 +7,7 @@ type Props = {
 	searchParams: { [key: string]: string | string[] | undefined };
 };
 
-// interface Task {
-// 	id: number;
-// 	content: string;
-// 	name?: string;
-// }
-
-// interface Column {
-// 	id: string;
-// 	title: string;
-// 	taskIds: string[];
-// }
-
-// interface InitialDataType {
-// 	tasks: { [key: string]: Task };
-// 	column: { [key: string]: Column };
-// 	columnOrder: string[];
-// }
-
-const fetchFirstVisit = async (itemId: string) => {
+export const fetchFirstVisit = async (itemId: string) => {
 	const url = getCurrentUrl();
 	const res = await fetch(`${url}/api/trip/place/${itemId}`);
 	const data = await res.json();

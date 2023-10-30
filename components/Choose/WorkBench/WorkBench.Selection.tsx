@@ -30,7 +30,7 @@ const WorkBenchSelection = ({ column, tasks }: InitialDataType) => {
 					<div
 						ref={droppableProvided.innerRef}
 						{...droppableProvided.droppableProps}
-						className="flex flex-col gap-3 p-3"
+						className="flex flex-col gap-3 p-3 min-h-[12rem] bg-primary-color rounded-md"
 					>
 						{tasks.map((task, index) => (
 							<Draggable key={task.id} draggableId={`${task.id}`} index={index}>

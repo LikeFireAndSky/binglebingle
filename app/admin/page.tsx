@@ -25,7 +25,7 @@ const fetchPostData = async (item: any) => {
 };
 
 const fetchGetEnrolledData = async () => {
-	const response = await axios.get('/api/trip/admin/get');
+	const response = await axios.get('/api/trip/get');
 	return response.data;
 };
 

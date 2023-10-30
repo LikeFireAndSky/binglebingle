@@ -30,6 +30,7 @@ const data = [
 	{ name: '나혜석거리', id: 110130 },
 	{ name: '수원시청', id: 110131 },
 	{ name: '북수원온천', id: 110132 },
+	{ name: '평택역', id: 110133 },
 ];
 
 export default data;
