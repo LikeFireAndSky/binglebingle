@@ -4,6 +4,7 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@material-tailwind/react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { RecoilRoot } from 'recoil';
 
 type Props = {
 	children: React.ReactNode;
@@ -14,8 +15,10 @@ const Providers = ({ children }: Props) => {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<ThemeProvider>{children}</ThemeProvider>
-			<ReactQueryDevtools initialIsOpen={true} />
+			<RecoilRoot>
+				<ThemeProvider>{children}</ThemeProvider>
+				<ReactQueryDevtools initialIsOpen={true} />
+			</RecoilRoot>
 		</QueryClientProvider>
 	);
 };

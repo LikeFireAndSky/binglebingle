@@ -9,7 +9,7 @@ const CarouselButton = () => {
 	const router = useRouter();
 
 	const handleClick = () => {
-		router.push('/page');
+		router.push('/choose');
 	};
 
 	return (

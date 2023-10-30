@@ -8,16 +8,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 
-const ppap = async (userUid: string) => {
+const generateStaticParams = async (userUid: string) => {
 	const data = await axios.get(`/api/user/get?userUid=${userUid}`);
-	if (!data) {
-		throw new Error('Network response was not ok');
-	}
-	return data;
-};
-
-const testAPIWithDynamicRouting = async (userUid: string) => {
-	const data = await axios.get(`/api/user/${userUid}`);
 	if (!data) {
 		throw new Error('Network response was not ok');
 	}
@@ -40,17 +32,9 @@ const MyPage = () => {
 		cacheTime: 1000 * 60 * 5, // 5분
 	};
 
-	// generateStaticParams
-
 	const { data: userData, isLoading } = useQuery(
 		[session?.user.uid],
-		() => ppap(session?.user.uid as string),
-		queryOptions,
-	);
-
-	const { data: userData2 } = useQuery(
-		[session?.user.uid],
-		() => testAPIWithDynamicRouting(session?.user.uid as string),
+		() => generateStaticParams(session?.user.uid as string),
 		queryOptions,
 	);
 

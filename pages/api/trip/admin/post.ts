@@ -1,15 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '@/lib/firebase.config';
-import { collection, doc, getDocs } from 'firebase/firestore';
+import { setDoc, collection, doc } from 'firebase/firestore';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	// DB에 데이터를 추가하는 API
-	if (req.method === 'GET') {
+	if (req.method === 'POST') {
 		try {
+			const { name, id } = req.body;
+			const dataIds = `suwon-${id}`;
 			const collectionName = 'trip_location/suwon/suwon_location';
-			const querySnapshot = await getDocs(collection(db, collectionName));
-			const data = querySnapshot.docs.map((doc) => doc.data());
-			return res.status(200).json({ data });
+			await setDoc(doc(db, collectionName, dataIds), req.body);
+
+			return res.status(200).json({ message: `${dataIds}업데이트 성공` });
 		} catch (error) {
 			return res.status(500).json({ message: error });
 		}
