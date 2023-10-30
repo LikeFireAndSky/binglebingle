@@ -7,7 +7,7 @@ type Props = {
 	searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export const fetchFirstVisit = async (itemId: string) => {
+const fetchFirstVisit = async (itemId: string) => {
 	const url = getCurrentUrl();
 	const res = await fetch(`${url}/api/trip/place/${itemId}`);
 	const data = await res.json();
