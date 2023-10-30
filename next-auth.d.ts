@@ -10,6 +10,7 @@ declare module 'next-auth' {
 			accessToken?: string;
 			uid?: string;
 			username?: string;
+			role?: string;
 		} & DefaultUser;
 	}
 

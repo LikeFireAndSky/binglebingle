@@ -1,9 +1,11 @@
 import { goNextDate, goPrevDate } from '@/hooks/useGetDate';
 import React, { useEffect, useState } from 'react';
 
-import { Droppable } from '@hello-pangea/dnd';
+import { Draggable, Droppable } from '@hello-pangea/dnd';
+import { Trip } from '@/interfaces/myschedule';
+import MyScheduleItem from './MyScheduleItem';
 
-const CustomCalendar = () => {
+const CustomCalendar = ({ newTripList }: { newTripList: Trip[] }) => {
 	const newDate = new Date();
 	// const year = newDate.getFullYear();
 	const [year, setYear] = useState(newDate.getFullYear());
@@ -16,6 +18,7 @@ const CustomCalendar = () => {
 	const prevMonthOfLastDate = new Date(year, month - 1, 0).getDate();
 
 	const days = ['일', '월', '화', '수', '목', '금', '토'];
+
 	const goNextMonth = () => {
 		const { year: nextYear, month: nextMonth } = goNextDate(year, month);
 		setYear(nextYear);
@@ -65,17 +68,27 @@ const CustomCalendar = () => {
 					</div>
 				))}
 				{daysNumber.map((dayNumber: number, dayIndex: number) => (
-					<div key={dayIndex} className="day__cell border-t">
+					<div key={dayNumber} className="day__cell border-t">
 						<div className="day__count text-lg">{dayNumber}</div>
-						{/* <div className="schedule__container text-sm">일정 드롭 공간</div> */}
-						<Droppable droppableId={`droppable-${dayIndex}`}>
+						<Droppable droppableId={`droppable-${dayNumber}`}>
 							{(provided) => (
 								<div
 									ref={provided.innerRef}
 									{...provided.droppableProps}
 									className="schedule__container text-sm"
+									style={{ width: '100%', height: '100%' }}
 								>
-									일정 드롭 공간
+									{newTripList
+										.filter((item) => item.trip_schedule === dayNumber)
+										.map((trip: Trip) => (
+											<MyScheduleItem
+												key={trip.trip_id}
+												index={newTripList.indexOf(trip)}
+												title={trip.trip_name}
+												trip={trip}
+											/>
+										))}
+									{provided.placeholder}
 								</div>
 							)}
 						</Droppable>

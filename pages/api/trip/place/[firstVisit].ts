@@ -1,15 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '@/lib/firebase.config';
-import { collection, doc, getDocs } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	// DB에 데이터를 추가하는 API
 	if (req.method === 'GET') {
 		try {
+			const { firstVisit } = req.query;
 			const collectionName = 'trip_location/suwon/suwon_location';
-			const querySnapshot = await getDocs(collection(db, collectionName));
-			const data = querySnapshot.docs.map((doc) => doc.data());
-			return res.status(200).json({ data });
+			const dataId = `suwon-${firstVisit}`;
+
+			const docRef = doc(db, collectionName, dataId);
+			const docSnap = await getDoc(docRef);
+			return res.status(200).json({ data: docSnap.data() });
 		} catch (error) {
 			return res.status(500).json({ message: error });
 		}
