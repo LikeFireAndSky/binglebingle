@@ -7,11 +7,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import _ from 'lodash';
 
-// calendar 관련 components
-// import MyCalendar from '@/components/Calendar/Calendar';
-
-/* 드래그 기능 추가 시 필요한 import 구문 */
-// import { DragDropContext } from 'react-beautiful-dnd';
 import { DragDropContext, DropResult, Droppable } from '@hello-pangea/dnd';
 import { useSession } from 'next-auth/react';
 import CustomCalendar from '@/components/Calendar/CustomCalendar';
@@ -47,7 +42,7 @@ const MySchedule = () => {
 	useEffect(() => {
 		if (data && data.trip_list) {
 			setTripList(data.trip_list);
-			setUpdatedList(data.trip_list);
+			// setUpdatedList(data.trip_list);
 		}
 	}, [data]);
 
@@ -79,20 +74,14 @@ const MySchedule = () => {
 			return;
 		}
 		// find로 draggableId와 같은 trip_id 찾음 (draggableId = trip.trip_id)
+		const currentYear = parseInt(destination.droppableId.split('-')[1], 10);
+		const currentMonth = parseInt(destination.droppableId.split('-')[2], 10);
+		const currentDay = parseInt(destination.droppableId.split('-')[3], 10);
 		const draggedItem = tripList.find((item) => item.trip_id === draggableId);
+		console.log(draggedItem);
 
 		// 만약 드래그 했으면 달력에 특정 날짜에 넣기 위해 특정 날짜를 지칭하는 day 속성 추가
 		if (draggedItem) {
-			// const dayNumber = parseInt(
-			// 	destination.droppableId.replace('droppable-', ''),
-			// 	10,
-			// );
-			// console.log(dayNumber);
-			const currentYear = parseInt(destination.droppableId.split('-')[1], 10);
-			const currentMonth = parseInt(destination.droppableId.split('-')[2], 10);
-			const currentDay = parseInt(destination.droppableId.split('-')[3], 10);
-			console.log(currentYear);
-			console.log(currentMonth);
 			console.log(currentDay);
 			const draggedLength = draggedItem.trip_schedule;
 			// const startDay = currentDay;
@@ -104,7 +93,6 @@ const MySchedule = () => {
 				currentDay,
 				endDay,
 			};
-			// console.log(updatedItem); // day 속성 추가해서 dayNumber 넣어줌
 			const newUpdatedList = [...updatedList, updatedItem]; // customCalendar에 전해줄 새로운 배열 만듦 -> firebase에 더함 예정
 
 			// 드래그 한 것 제외한 나머지 배열 tripList로 업데이트 해줌
@@ -134,9 +122,6 @@ const MySchedule = () => {
 	// },[tripList])
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
-			{/* <Droppable droppableId="mySchedule">
-				{(provided) => (
-					<div ref={provided.innerRef} {...provided.droppableProps}> */}
 			<div className="container mx-auto">
 				<div className="flex flex-row justify-between">
 					<div className="w-1/2 mt-20">
@@ -150,7 +135,7 @@ const MySchedule = () => {
 							<Droppable droppableId="myScheduleList">
 								{(provided) => (
 									<div ref={provided.innerRef} {...provided.droppableProps}>
-										<div className="scheduleList w-full my-4 text-center flex flex-col justify-center">
+										<div className="scheduleList w-1/2 mx-auto my-4 text-center flex flex-col justify-center">
 											{tripList.map((trip: Trip, index: number) => (
 												<MyScheduleItem
 													key={trip.trip_id}
@@ -182,9 +167,6 @@ const MySchedule = () => {
 					</div>
 				</div>
 			</div>
-			{/* </div>
-				)}
-			</Droppable> */}
 		</DragDropContext>
 	);
 };

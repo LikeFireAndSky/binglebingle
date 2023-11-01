@@ -67,10 +67,15 @@ const CustomCalendar = ({ updatedList }: { updatedList: Trip[] }) => {
 						</div>
 					</div>
 				))}
-				{daysNumber.map((dayNumber: number, dayIndex: number) => (
-					<div key={dayNumber} className="day__cell border-t min-h-[4rem]">
+				{daysNumber.map((dayNumber: number) => (
+					<div
+						key={dayNumber}
+						className="day__cell border-t w-full min-h-[4rem] hover:bg-primary-color"
+					>
 						<div className="day__count text-lg">{dayNumber}</div>
-						<Droppable droppableId={`droppable-${year}-${month}-${dayNumber}`}>
+						<Droppable
+							droppableId={`droppable-${year}-${month}-${dayNumber + 1}`}
+						>
 							{(provided) => (
 								<div
 									ref={provided.innerRef}
@@ -80,8 +85,8 @@ const CustomCalendar = ({ updatedList }: { updatedList: Trip[] }) => {
 									{updatedList
 										.filter(
 											(trip) =>
-												trip.currentDay <= dayNumber &&
-												trip.endDay >= dayNumber &&
+												trip.currentDay <= dayNumber + 1 &&
+												trip.endDay >= dayNumber + 1 &&
 												trip.currentYear === year &&
 												trip.currentMonth === month,
 										)
