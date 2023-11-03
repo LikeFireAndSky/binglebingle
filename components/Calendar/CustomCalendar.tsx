@@ -1,6 +1,6 @@
 import { goNextDate, goPrevDate } from '@/hooks/useGetDate';
 import React, { useEffect, useState } from 'react';
-
+import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { Trip } from '@/interfaces/myschedule';
 import MyScheduleItem from './MyScheduleItem';
@@ -41,20 +41,20 @@ const CustomCalendar = ({ updatedList }: { updatedList: Trip[] }) => {
 	}, [year, month, lastDateOfMonth]);
 
 	return (
-		<div className="container my-5 flex flex-col justify-center border rounded-lg text-center">
-			<div className="calendar__header mx-auto">
-				<span>Calendar</span>
-				<button className="prev__btn mx-3" onClick={goPrevMonth}>
-					&lt;
+		<div className="container my-5 flex flex-col justify-center border-2 shadow rounded-lg text-center px-3 py-2">
+			<div className="calendar__header mx-auto flex gap-2 items-center">
+				<span>My Calendar</span>
+				<button className="prev__btn text-sm" onClick={goPrevMonth}>
+					<BsChevronLeft />
 				</button>
-				<span>
+				<span className="currentDate font-bold text-sm">
 					{year} {month}
 				</span>
-				<button className="next__btn mx-3" onClick={goNextMonth}>
-					&gt;
+				<button className="next__btn text-sm" onClick={goNextMonth}>
+					<BsChevronRight />
 				</button>
 			</div>
-			<div className="calendar__container w-full grid grid-cols-7 gap-4 border-4">
+			<div className="calendar__container w-full grid grid-cols-7 gap-4">
 				{days.map((today: string, index: number) => (
 					<div key={index} className="day__cell">
 						<div className="day__header mt-3 font-primary-font text-primary-color">
@@ -72,7 +72,7 @@ const CustomCalendar = ({ updatedList }: { updatedList: Trip[] }) => {
 				{daysNumber.map((dayNumber: number) => (
 					<div
 						key={dayNumber}
-						className="day__cell border-t w-full min-h-[4rem] hover:border-2 border-primary-color hover:scale-110 rounded-md"
+						className="day__cell border-t border-bg-grey-200 w-full min-h-[4rem] hover:border-2 scale-110 hover:border-green-100 rounded-md"
 					>
 						<div className="day__count text-lg">{dayNumber}</div>
 						<Droppable
@@ -85,13 +85,26 @@ const CustomCalendar = ({ updatedList }: { updatedList: Trip[] }) => {
 									className="schedule__container text-sm w-full"
 								>
 									{updatedList
-										.filter(
-											(trip) =>
-												trip.currentDay <= dayNumber + 1 &&
-												trip.endDay >= dayNumber + 1 &&
-												trip.currentYear === year &&
-												trip.currentMonth === month,
-										)
+										.filter((trip) => {
+											// 계산된 이벤트의 시작일과 종료일 범위를 구함
+											const eventStart = new Date(
+												trip.currentYear,
+												trip.currentMonth - 1,
+												trip.currentDay,
+											);
+											const eventEnd = new Date(
+												trip.currentYear,
+												trip.currentMonth - 1,
+												trip.endDay,
+											);
+
+											// 현재 날짜와 비교하여 해당 달에 표시
+											return (
+												eventStart <=
+													new Date(year, month - 1, dayNumber + 1) &&
+												eventEnd >= new Date(year, month - 1, dayNumber + 1)
+											);
+										})
 										.map((trip, index) => (
 											<MyScheduleItem
 												key={trip.trip_id}

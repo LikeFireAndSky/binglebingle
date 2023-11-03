@@ -122,7 +122,7 @@ const MySchedule = () => {
 						<CustomCalendar updatedList={updatedList} />
 					</div>
 					<div className="w-1/2 mt-20 ml-10 flex flex-col justify-center">
-						<div className="enrollContainer w-1/2 flex flex-col justify-center mx-auto mt-4 border-solid border-4 border-black rounded-md">
+						<div className="enrollContainer w-1/2 flex flex-col justify-center mx-auto mt-4 border-solid border-2 shadow rounded-md">
 							<p className="schedule__title mt-4 text-center font-primary-font">
 								내 일정을 입력해보세요
 							</p>
