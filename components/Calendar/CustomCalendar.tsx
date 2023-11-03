@@ -16,6 +16,8 @@ const CustomCalendar = ({ updatedList }: { updatedList: Trip[] }) => {
 	const firstDay = firstDayOfMonth.getDay(); // 매달 1일의 요일
 	const lastDateOfMonth = lastDayOfMonth.getDate(); // 매달 마지막날의 날짜
 	const prevMonthOfLastDate = new Date(year, month - 1, 0).getDate();
+	const startOfMonth = new Date(year, month - 1, 1);
+	const endOfMonth = new Date(year, month, 0);
 
 	const days = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -70,7 +72,7 @@ const CustomCalendar = ({ updatedList }: { updatedList: Trip[] }) => {
 				{daysNumber.map((dayNumber: number) => (
 					<div
 						key={dayNumber}
-						className="day__cell border-t w-full min-h-[4rem] hover:bg-primary-color"
+						className="day__cell border-t w-full min-h-[4rem] hover:border-2 border-primary-color hover:scale-110 rounded-md"
 					>
 						<div className="day__count text-lg">{dayNumber}</div>
 						<Droppable

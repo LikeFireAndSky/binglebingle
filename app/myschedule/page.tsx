@@ -78,13 +78,10 @@ const MySchedule = () => {
 		const currentMonth = parseInt(destination.droppableId.split('-')[2], 10);
 		const currentDay = parseInt(destination.droppableId.split('-')[3], 10);
 		const draggedItem = tripList.find((item) => item.trip_id === draggableId);
-		console.log(draggedItem);
 
 		// 만약 드래그 했으면 달력에 특정 날짜에 넣기 위해 특정 날짜를 지칭하는 day 속성 추가
 		if (draggedItem) {
-			console.log(currentDay);
 			const draggedLength = draggedItem.trip_schedule;
-			// const startDay = currentDay;
 			const endDay = currentDay + draggedLength - 1;
 			const updatedItem = {
 				...draggedItem,
@@ -93,19 +90,19 @@ const MySchedule = () => {
 				currentDay,
 				endDay,
 			};
-			const newUpdatedList = [...updatedList, updatedItem]; // customCalendar에 전해줄 새로운 배열 만듦 -> firebase에 더함 예정
-
-			// 드래그 한 것 제외한 나머지 배열 tripList로 업데이트 해줌
+			const newUpdatedList = [...updatedList, updatedItem];
 			const newTripList = tripList.filter(
 				(item) => item.trip_id !== draggableId,
 			);
 			if (destination.droppableId === 'myScheduleList') {
-				const reorderedTripList = reorder(
-					tripList,
-					source.index,
-					destination.index,
-				);
-				setTripList(reorderedTripList);
+				if (source.droppableId === 'myScheduleList') {
+					const reorderedTripList = reorder(
+						tripList,
+						source.index,
+						destination.index,
+					);
+					setTripList(reorderedTripList);
+				}
 			} else {
 				setUpdatedList(newUpdatedList);
 				setTripList(newTripList);
@@ -117,9 +114,6 @@ const MySchedule = () => {
 	const removeItem = () => {
 		setTripList([]);
 	};
-	// useEffect(()=>{
-
-	// },[tripList])
 	return (
 		<DragDropContext onDragEnd={onDragEnd}>
 			<div className="container mx-auto">
