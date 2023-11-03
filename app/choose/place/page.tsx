@@ -2,6 +2,7 @@ import React from 'react';
 import getCurrentUrl from '@/utils/getCurrentUrl';
 import WorkBench from '@/components/Choose/WorkBench/WorkBench';
 import { WorkBenchPropss } from '@/components/Choose/WorkBench/WorkBench.type';
+import CanvasRoot from '@/components/Choose/CanvasRole/CanvasRoot';
 
 type Props = {
 	searchParams: { [key: string]: string | string[] | undefined };
@@ -20,9 +21,9 @@ const PlacePage = async ({ searchParams }: Props) => {
 	const items = initialData.data.recommend_location;
 
 	return (
-		<section className="mx-auto absolute inset-0 top-20 w-4/5 flex flex-col items-center">
-			<h1>품번 : {initialData && initialData.data.name}</h1>
+		<section className="mx-auto absolute inset-0 top-20 w-full flex flex-col items-center bg-[#12071f]">
 			<WorkBench initialData={items} />
+			<CanvasRoot />
 		</section>
 	);
 };

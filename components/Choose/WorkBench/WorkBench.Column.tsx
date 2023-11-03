@@ -24,30 +24,31 @@ type InitialDataType = {
 
 const WorkBenchColumn = ({ column, tasks }: InitialDataType) => {
 	return (
-		<Card className="h-full w-full">
-			<h1>{column.title}</h1>
-			<Droppable droppableId={column.id}>
-				{(droppableProvided) => (
-					<CardBody
-						ref={droppableProvided.innerRef}
-						{...droppableProvided.droppableProps}
-						className="bg-white p-3 flex flex-col gap-3"
-					>
-						{tasks.map((task, index) => (
-							<Draggable key={task.id} draggableId={`${task.id}`} index={index}>
-								{(draggableProvided) => (
-									<WorkBenchObjects
-										draggableProvided={draggableProvided}
-										task={task}
-									/>
-								)}
-							</Draggable>
-						))}
-						{droppableProvided.placeholder}
-					</CardBody>
-				)}
-			</Droppable>
-		</Card>
+		<Droppable
+			droppableId={column.id}
+			direction="horizontal"
+			ignoreContainerClipping
+		>
+			{(droppableProvided) => (
+				<div
+					ref={droppableProvided.innerRef}
+					{...droppableProvided.droppableProps}
+					className="p-3 flex flex-col gap-3"
+				>
+					{tasks.map((task, index) => (
+						<Draggable key={task.id} draggableId={`${task.id}`} index={index}>
+							{(draggableProvided) => (
+								<WorkBenchObjects
+									draggableProvided={draggableProvided}
+									task={task}
+								/>
+							)}
+						</Draggable>
+					))}
+					{droppableProvided.placeholder}
+				</div>
+			)}
+		</Droppable>
 	);
 };
 

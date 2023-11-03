@@ -3,7 +3,7 @@ import { DraggableProvided } from '@hello-pangea/dnd';
 export type ColumnType = {
 	id: string;
 	title: string;
-	taskIds: string[];
+	taskIds: number[];
 };
 
 export type WorkBenchProps = {

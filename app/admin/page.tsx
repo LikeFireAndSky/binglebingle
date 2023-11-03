@@ -33,7 +33,6 @@ const AdminPage = () => {
 	const [pick, setPick] = React.useState<any>([]);
 	const [recommend, setRecommend] = React.useState<any>([]);
 	const [picked, setPicked] = React.useState<any>([]);
-	const ref = useRef<any>(null);
 
 	const { data: queryData } = useQuery(
 		['getEnrolledData'],

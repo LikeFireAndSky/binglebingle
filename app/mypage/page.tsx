@@ -42,8 +42,6 @@ const MyPage = () => {
 		return <div>Loading...</div>;
 	}
 
-	console.log(userData?.data.name);
-
 	return (
 		<section className="mx-auto absolute inset-0 top-20 w-2/3 lg:w-3/5 flex flex-col  items-center">
 			<div id="header" className="flex flex-col w-full  mt-3 ">
