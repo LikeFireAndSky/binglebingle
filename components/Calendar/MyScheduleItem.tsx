@@ -20,7 +20,7 @@ const MyScheduleItem = ({ title, index, trip }: IMyScheduleItem) => {
 					{...provided.dragHandleProps}
 				>
 					<Chip
-						className={`w-1/2 mx-auto mt-5 ${
+						className={`w-full max-w-[12rem] mx-auto mt-5 shadow hover:scale-110 ${
 							trip.trip_schedule === 1
 								? 'bg-yellow-500'
 								: trip.trip_schedule === 2
